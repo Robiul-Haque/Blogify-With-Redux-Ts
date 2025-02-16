@@ -10,9 +10,7 @@ const loginSchema = z.object({
 type Inputs = z.infer<typeof loginSchema>;
 
 const Login = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-        resolver: zodResolver(loginSchema),
-    });
+    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({ resolver: zodResolver(loginSchema) });
 
     const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
         console.log(data);
