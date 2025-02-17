@@ -3,6 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useState } from "react";
+import decodedToken from "../utils/decodedToken";
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/auth/authSlice";
+import { useNavigate } from "react-router";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email format"),
@@ -23,6 +27,8 @@ const Login = () => {
     );
     const [showPassword, setShowPassword] = useState(false);
     const [login] = useLoginMutation();
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         try {
@@ -31,7 +37,11 @@ const Login = () => {
                 password: data.password,
             }
             const res = await login(userInfo).unwrap();
-            console.log(res);
+            const { name, email, role } = decodedToken(res?.data?.accessToken);
+            const token = res?.data?.accessToken;
+            // Set the new access token & user info in the user state.
+            dispatch(setUser({ name, email, role, token }));
+            if (res?.success) navigate("/admin/dashboard");
         } catch (err) {
             console.log(err);
         }
