@@ -2,7 +2,7 @@ import { BaseQueryApi, createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/too
 import { RootState } from '../store';
 import { logout, setUser } from '../features/auth/authSlice';
 
-const baseUrl = import.meta.env.BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const baseQuery = fetchBaseQuery({
     baseUrl: baseUrl,
