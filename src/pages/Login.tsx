@@ -7,6 +7,7 @@ import decodedToken from "../utils/decodedToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
+import { toast } from 'sonner';
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email format"),
@@ -31,19 +32,23 @@ const Login = () => {
     const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+        const tostId = toast.loading("Logging in...");
+
         try {
             const userInfo = {
                 email: data.email,
                 password: data.password,
             }
             const res = await login(userInfo).unwrap();
+
+            // Decoded the new token, set the new access token & user info in the user state, then navigate the admin dashboard.
             const { name, email, role } = decodedToken(res?.data?.accessToken);
             const token = res?.data?.accessToken;
-            // Set the new access token & user info in the user state.
             dispatch(setUser({ name, email, role, token }));
             if (res?.success) navigate("/admin/dashboard");
+            toast.success("Logged in...", { id: tostId });
         } catch (err) {
-            console.log(err);
+            toast.error("Something went wrong!", { id: tostId });
         }
     }
 
