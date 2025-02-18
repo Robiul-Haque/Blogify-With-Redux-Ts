@@ -34,7 +34,7 @@ const Admin = () => {
           </span>
           <span onClick={() => dispatch(logout())} className="flex items-center gap-2 cursor-pointer">
             <img className="size-5" src="https://img.icons8.com/ios-filled/50/logout-rounded.png" alt="logout-rounded" />
-            <button>Logout</button>
+            <p>Logout</p>
           </span>
         </ul>
       </div>
