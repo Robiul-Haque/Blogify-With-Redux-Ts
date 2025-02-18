@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import AdminDashboard from "../layout/AdminDashboard";
 import Login from "../pages/Login";
 import ProtectedRoute from '../route/protectedRoute';
+import Dashboard from "../pages/admin/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -10,11 +11,21 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login/>
+        element: <Login />
     },
     {
-        path: "/admin/dashboard",
-        element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>
+        path: "/admin",
+        element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,
+        children: [
+            {
+                path: "/admin/dashboard",
+                element: <Dashboard />
+            },
+            {
+                path: "/admin/dashboard/user",
+                element: <h3>User</h3>
+            }
+        ]
     }
 ]);
 
