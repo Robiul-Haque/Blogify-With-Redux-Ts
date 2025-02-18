@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import AdminDashboard from "../layout/AdminDashboard";
+import Admin from "../layout/Admin";
 import Login from "../pages/Login";
 import ProtectedRoute from '../route/protectedRoute';
 import Dashboard from "../pages/admin/Dashboard";
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        element: <ProtectedRoute><AdminDashboard /></ProtectedRoute>,
+        element: <ProtectedRoute><Admin /></ProtectedRoute>,
         children: [
             {
                 path: "/admin/dashboard",
