@@ -9,10 +9,10 @@ const Dashboard = () => {
     return (
         <section className="mt-10">
             <div className="flex justify-evenly flex-col md:flex-row">
-                <div className="bg-base-200 border flex justify-evenly items-center w-60 h-32 rounded-xl">
+                <div className={`${isLoading ? "border-0" : "border"} bg-base-200 flex justify-evenly items-center w-60 h-32 rounded-xl`}>
                     {
                         isLoading ?
-                            null
+                            <div className="skeleton w-60 h-32"></div>
                             :
                             <>
                                 <span>
@@ -23,10 +23,10 @@ const Dashboard = () => {
                             </>
                     }
                 </div>
-                <div className="bg-base-200 border flex justify-evenly items-center w-60 h-32 rounded-xl">
+                <div className={`${isLoading ? "border-0" : "border"} bg-base-200 flex justify-evenly items-center w-60 h-32 rounded-xl`}>
                     {
                         isLoading ?
-                            null
+                            <div className="skeleton w-60 h-32"></div>
                             :
                             <>
                                 <span>
