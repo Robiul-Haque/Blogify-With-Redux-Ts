@@ -2,10 +2,16 @@ import { useState } from "react";
 import { Link, Outlet } from "react-router";
 import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/features/auth/authSlice";
+import Cookies from "js-cookie";
 
 const Admin = () => {
   const [activeLink, setActiveLink] = useState<string>("");
   const dispatch = useAppDispatch();
+
+  const handleLogOut = (): void => {
+    dispatch(logout());
+    Cookies.remove("refreshToken");
+  }
 
   return (
     <section className="flex justify-center">
@@ -32,7 +38,7 @@ const Admin = () => {
               }
               User</Link>
           </span>
-          <span onClick={() => dispatch(logout())} className="flex items-center gap-2 cursor-pointer">
+          <span onClick={handleLogOut} className="flex items-center gap-2 cursor-pointer">
             <img className="size-5" src="https://img.icons8.com/ios-filled/50/logout-rounded.png" alt="logout-rounded" />
             <p>Logout</p>
           </span>

@@ -8,6 +8,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
 import { toast } from 'sonner';
+import Cookies from "js-cookie";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email format"),
@@ -41,10 +42,13 @@ const Login = () => {
             }
             const res = await login(userInfo).unwrap();
 
-            // Decoded the new token, set the new access token & user info in the user state, then navigate the admin dashboard.
+            // Decoded the new token, set the new access token & user info in the auth state, set the refresh token cookies, then navigate the admin dashboard.
             const { name, email, role } = decodedToken(res?.data?.accessToken);
             const token = res?.data?.accessToken;
             dispatch(setUser({ name, email, role, token }));
+            
+            Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
+
             if (res?.success) navigate("/admin/dashboard");
             toast.success("Logged in...", { id: tostId });
         } catch (err) {
