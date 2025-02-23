@@ -7,7 +7,7 @@ import decodedToken from "../utils/decodedToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import Cookies from "js-cookie";
 
 const loginSchema = z.object({
@@ -46,7 +46,7 @@ const Login = () => {
             const { name, email, role } = decodedToken(res?.data?.accessToken);
             const token = res?.data?.accessToken;
             dispatch(setUser({ name, email, role, token }));
-            
+
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
             if (res?.success) navigate("/admin/dashboard");

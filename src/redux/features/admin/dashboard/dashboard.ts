@@ -8,7 +8,13 @@ const dashboardApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
         }),
+        viewBlog: build.query({
+            query: (id) => ({
+                url: `/blog/admin-get-blog/${id}`,
+                method: "GET",
+            }),
+        }),
     })
 });
 
-export const { useDashboardStaticsQuery } = dashboardApi;
+export const { useDashboardStaticsQuery, useViewBlogQuery } = dashboardApi;
