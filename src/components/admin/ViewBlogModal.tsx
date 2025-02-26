@@ -63,7 +63,7 @@ const ViewBlogModal = ({ id }: { id: string }) => {
                                                         <h4 className="text-gray-900 text-sm font-semibold dark:text-white">{comment.user.name}</h4>
                                                         <span className="text-xs text-gray-500">{moment(comment.createdAt).format("D MMM Y")}</span>
                                                     </div>
-                                                    <p className="text-gray-700 text-sm dark:text-gray-300 mt-2 border border-gray-300 dark:border-gray-700 p-1.5 rounded-lg">{comment.comment}</p>
+                                                    <p className="text-gray-700 text-sm dark:text-gray-300 mt-2">{comment.comment}</p>
                                                 </div>
                                             </div>
                                         ))}
