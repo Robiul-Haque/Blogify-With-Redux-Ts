@@ -5,7 +5,7 @@ import { logout } from "../redux/features/auth/authSlice";
 import Cookies from "js-cookie";
 
 const Admin = () => {
-  const [activeLink, setActiveLink] = useState<string>("");
+  const [activeLink, setActiveLink] = useState<string>("/admin/dashboard");
   const dispatch = useAppDispatch();
 
   const handleLogOut = (): void => {

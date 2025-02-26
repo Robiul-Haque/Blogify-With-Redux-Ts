@@ -25,7 +25,7 @@ const baseQueryWithRefreshToken = async (args: string | FetchArgs, api: BaseQuer
             credentials: "include"
         });
         const data = await res.json();
-        
+
         if (data?.data?.accessToken) {
             // Set the new access token in the user state
             const { name, email, role } = (api.getState() as RootState).auth;
@@ -44,5 +44,6 @@ const baseQueryWithRefreshToken = async (args: string | FetchArgs, api: BaseQuer
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: baseQueryWithRefreshToken,
+    tagTypes: ["user", "dashboard"],
     endpoints: () => ({}),
 })
