@@ -3,6 +3,7 @@ import Admin from "../layout/Admin";
 import Login from "../pages/Login";
 import ProtectedRoute from '../route/protectedRoute';
 import Dashboard from "../pages/admin/Dashboard";
+import User from "../pages/admin/User";
 
 const router = createBrowserRouter([
     {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/admin/dashboard/user",
-                element: <h3>User</h3>
+                element: <User />
             }
         ]
     }
