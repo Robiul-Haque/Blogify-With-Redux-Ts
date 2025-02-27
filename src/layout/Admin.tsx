@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/features/auth/authSlice";
 import Cookies from "js-cookie";
 
 const Admin = () => {
-  const [activeLink, setActiveLink] = useState<string>("/admin/dashboard");
+  const { pathname } = useLocation();
+  const [activeLink, setActiveLink] = useState<string>(pathname);
   const dispatch = useAppDispatch();
 
   const handleLogOut = (): void => {
