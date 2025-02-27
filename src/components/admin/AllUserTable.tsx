@@ -1,17 +1,42 @@
-import { useAllUserQuery, useBlockUserMutation } from "../../redux/features/admin/user";
+import Swal from "sweetalert2";
+import { useAllUserQuery, useBlockUserMutation, useDeleteUserMutation } from "../../redux/features/admin/user";
 
 const AllUserTable = () => {
     const { data: allUsers, isLoading } = useAllUserQuery(undefined);
     const [blockUser] = useBlockUserMutation();
+    const [deleteUser] = useDeleteUserMutation();
     if (isLoading) return <div>Loading...</div>
-    console.log("All User: ", allUsers.data);
 
     const handleBlockedUser = (id: string, status: boolean) => {
         blockUser({ id, status });
     }
 
     const handleDeleteUser = (id: string) => {
-        console.log("Delete User: ", id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "",
+            confirmButtonText: "Yes, Delete"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteUser(id).then(() => {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }).catch(() => {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong!",
+                        icon: "error"
+                    });
+                });
+            }
+        });
     }
 
     return (
@@ -34,7 +59,7 @@ const AllUserTable = () => {
                 </thead>
                 <tbody>
                     {
-                        allUsers.data.map((user: any) => (
+                        allUsers?.data?.map((user: any) => (
                             <tr key={user?._id} className="hover:bg-gray-50">
                                 <th>
                                     <label>
@@ -74,7 +99,7 @@ const AllUserTable = () => {
                                     }
                                 </th>
                                 <th>
-                                    <button onClick={() => handleDeleteUser(user?._id)} title="Delete" className="btn btn-sm bg-red-200 hover:bg-red-400"><img className="size-5" src="https://img.icons8.com/material-rounded/50/filled-trash.png" alt="filled-trash" /></button>
+                                    <button onClick={() => handleDeleteUser(user?._id)} title="Delete" className="btn btn-sm bg-red-400 hover:bg-red-500"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
                                 </th>
                             </tr>
                         ))
