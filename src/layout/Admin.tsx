@@ -29,6 +29,16 @@ const Admin = () => {
               }
               Dashboard</Link>
           </span>
+          <span onClick={() => setActiveLink("/admin/dashboard/blog")}>
+            <Link to="/admin/dashboard/blog" className="flex items-center gap-2 my-6">
+              {
+                activeLink === "/admin/dashboard/blog" ?
+                  <img className="size-6" src="https://img.icons8.com/ios-filled/50/google-blog-search.png" alt="google-blog-search" />
+                  :
+                  <img className="size-6" src="https://img.icons8.com/windows/32/google-blog-search.png" alt="google-blog-search" />
+              }
+              Blog</Link>
+          </span>
           <span onClick={() => setActiveLink("/admin/dashboard/user")}>
             <Link to="/admin/dashboard/user" className="flex items-center gap-2 my-6">
               {
