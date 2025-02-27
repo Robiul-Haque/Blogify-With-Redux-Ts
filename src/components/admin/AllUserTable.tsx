@@ -3,7 +3,7 @@ import { useAllUserQuery, useBlockUserMutation, useDeleteUserMutation } from "..
 
 const AllUserTable = () => {
     const { data: allUsers, isLoading } = useAllUserQuery(undefined);
-    const [blockUser] = useBlockUserMutation();
+    const [blockUser, { isLoading: blockUserLoading }] = useBlockUserMutation();
     const [deleteUser] = useDeleteUserMutation();
 
     const handleBlockedUser = (id: string, status: boolean): void => {
@@ -69,12 +69,12 @@ const AllUserTable = () => {
                                             </label>
                                         </th>
                                         <td>
-                                            <img src={user?.image?.url} alt={user?.name} className="size-14 rounded-full border mx-auto" />
+                                            <img src={user?.image?.url} alt={user?.name} className={`${user?.role === "admin" ? "border-indigo-500" : user?.role === "author" ? "border-blue-500" : "border-green-500"} size-14 rounded-full border-3 mx-auto`} />
                                         </td>
                                         <td>
                                             <div className="flex items-center flex-col gap-y-2 inter font-[600]">
                                                 <span>{user?.name}</span>
-                                                <p className="text-green-400 bg-green-100/50 text-xs badge capitalize">{user?.role}</p>
+                                                <p className={`${user?.role === "admin" ? " text-white bg-indigo-500" : user?.role === "author" ? "text-blue-500 bg-blue-100/50" : "text-green-500 bg-green-100/50"} text-xs badge capitalize`}>{user?.role}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -82,11 +82,17 @@ const AllUserTable = () => {
                                         </td>
                                         <td className="w-30">
                                             <div className="flex justify-center items-center flex-col gap-y-2">
-                                                <label className={`${user?.isBlocked ? "border-red-400" : "border-green-400"} toggle text-base-content border rounded-full`}>
-                                                    <input type="checkbox" onChange={(e) => handleBlockedUser(user?._id, e.target.checked)} />
-                                                    <svg className="bg-green-400 rounded-full" aria-label="enabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="4" fill="none" stroke="currentColor"><path d="M20 6 9 17l-5-5"></path></g></svg>
-                                                    <svg className="bg-red-400 rounded-full" aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                                                </label>
+                                                {
+                                                    user?.role === "admin" ? null
+                                                        :
+                                                        blockUserLoading ? <span className="loading loading-bars loading-xs h-6"></span>
+                                                            :
+                                                            <label className={`${user?.isBlocked ? "border-red-400" : "border-green-400"} toggle text-base-content border rounded-full`}>
+                                                                <input type="checkbox" checked={user?.isBlocked} onChange={(e) => handleBlockedUser(user?._id, e.target.checked)} />
+                                                                <svg className="bg-green-400 rounded-full" aria-label="enabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="4" fill="green" stroke="currentColor"><path d="M20 6 9 17l-5-5"></path></g></svg>
+                                                                <svg className="bg-red-400 rounded-full" aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                            </label>
+                                                }
                                                 <p>{user?.isBlocked ? <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Block</p>
                                                     :
                                                     <p className="text-green-400 bg-green-100/40 text-xs badge font-bold">Active</p>}</p>
@@ -97,7 +103,7 @@ const AllUserTable = () => {
                                                 user?.isVerified ?
                                                     <p className="text-green-400 font-bold">Verified</p>
                                                     :
-                                                    <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Not Verified</p>
+                                                    <p className="text-red-400 font-bold">Not Verified</p>
                                             }
                                         </th>
                                         <th>

@@ -1,10 +1,9 @@
+import AllBlogTable from "../../components/admin/AllBlogTable";
 
 const Blog = () => {
-  return (
-    <div>
-      Blog page
-    </div>
-  )
+    return (
+        <AllBlogTable />
+    )
 }
 
 export default Blog;
