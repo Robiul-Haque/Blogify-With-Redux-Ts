@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useViewBlogQuery } from "../../redux/features/admin/dashboard/dashboard";
+import { useViewBlogQuery } from "../../redux/features/admin/dashboard";
 
 type TUserComments = {
     _id: string;

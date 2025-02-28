@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { useDashboardStaticsQuery } from "../../redux/features/admin/dashboard/dashboard";
+import { useDashboardStaticsQuery } from "../../redux/features/admin/dashboard";
 import moment from "moment";
 import ViewBlogModal from "../../components/admin/ViewBlogModal";
 import { useState } from "react";
