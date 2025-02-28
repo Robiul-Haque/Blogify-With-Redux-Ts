@@ -10,9 +10,12 @@ const AllBlogTable = () => {
                             </label>
                         </th>
                         <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
-                        <th></th>
+                        <th>Content</th>
+                        <th>Category</th>
+                        <th>Like</th>
+                        <th>Comment</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { useAllUserQuery, useBlockUserMutation, useDeleteUserMutation } from "../../redux/features/admin/user";
+import { useAllUserQuery, useBlockUserMutation, useDeleteUserMutation } from "../../redux/features/admin/dashboard/user";
 
 const AllUserTable = () => {
     const { data: allUsers, isLoading } = useAllUserQuery(undefined);
