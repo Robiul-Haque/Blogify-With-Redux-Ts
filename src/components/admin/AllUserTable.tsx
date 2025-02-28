@@ -1,6 +1,22 @@
 import Swal from "sweetalert2";
 import { useAllUserQuery, useBlockUserMutation, useDeleteUserMutation } from "../../redux/features/admin/user";
 
+type TUser = {
+    _id: string;
+    name: string;
+    email: string;
+    role: string;
+    image: {
+        url: string;
+    };
+    isDeleted: boolean;
+    isBlocked: boolean;
+    isVerified: boolean;
+    totalBlogs: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
 const AllUserTable = () => {
     const { data: allUsers, isLoading } = useAllUserQuery(undefined);
     const [blockUser, { isLoading: blockUserLoading }] = useBlockUserMutation();
@@ -61,7 +77,7 @@ const AllUserTable = () => {
                         </thead>
                         <tbody>
                             {
-                                allUsers?.data?.map((user: any) => (
+                                allUsers?.data?.map((user: TUser) => (
                                     <tr key={user?._id} className="hover:bg-gray-50">
                                         <th>
                                             <label>

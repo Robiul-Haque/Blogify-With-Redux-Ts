@@ -16,9 +16,9 @@ const Admin = () => {
 
   return (
     <section className="flex justify-center">
-      <div className="bg-slate-100 w-[17%] h-screen p-5">
-        <h1 className="dark:text-black text-xl inter font-[600] mt-2 ml-2">Admin Dashboard</h1>
-        <ul className="list-none roboto font-[500] text-gray-700 mt-8 ml-2">
+      <div className="bg-slate-100 w-[14%] h-screen px-4 py-5">
+        <h1 className="dark:text-black text-xl inter font-[600] mt-2 ml-1">Admin Dashboard</h1>
+        <ul className="list-none roboto font-[500] text-gray-700 mt-8 ml-1">
           <span onClick={() => setActiveLink("/admin/dashboard")}>
             <Link to="/admin/dashboard" className="flex items-center gap-2">
               {
@@ -55,7 +55,7 @@ const Admin = () => {
           </span>
         </ul>
       </div>
-      <div className="w-[83%] h-screen overflow-y-auto text-center p-5">
+      <div className="w-[86%] h-screen overflow-y-auto text-center p-3">
         <Outlet />
       </div>
     </section>
