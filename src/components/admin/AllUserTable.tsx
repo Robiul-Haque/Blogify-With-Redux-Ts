@@ -99,9 +99,11 @@ const AllUserTable = () => {
                                         <td className="w-30">
                                             <div className="flex justify-center items-center flex-col gap-y-2">
                                                 {
-                                                    user?.role === "admin" ? null
+                                                    user?.role === "admin" ?
+                                                        null
                                                         :
-                                                        blockUserLoading ? <span className="loading loading-bars loading-xs h-6"></span>
+                                                        blockUserLoading ?
+                                                            <span className="loading loading-bars loading-xs h-6"></span>
                                                             :
                                                             <label className={`${user?.isBlocked ? "border-red-400" : "border-green-400"} toggle text-base-content border rounded-full`}>
                                                                 <input type="checkbox" checked={user?.isBlocked} onChange={(e) => handleBlockedUser(user?._id, e.target.checked)} />
@@ -109,9 +111,14 @@ const AllUserTable = () => {
                                                                 <svg className="bg-red-400 rounded-full" aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                                             </label>
                                                 }
-                                                <p>{user?.isBlocked ? <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Block</p>
-                                                    :
-                                                    <p className="text-green-400 bg-green-100/40 text-xs badge font-bold">Active</p>}</p>
+                                                <p>
+                                                    {
+                                                        user?.isBlocked ?
+                                                            <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Block</p>
+                                                            :
+                                                            <p className="text-green-400 bg-green-100/40 text-xs badge font-bold">Active</p>
+                                                    }
+                                                </p>
                                             </div>
                                         </td>
                                         <th>
@@ -123,7 +130,12 @@ const AllUserTable = () => {
                                             }
                                         </th>
                                         <th>
-                                            <button onClick={() => handleDeleteUser(user?._id)} title="Delete" className="btn btn-sm bg-red-400 hover:bg-red-500"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
+                                            {
+                                                user?.role !== "admin" ?
+                                                    <button onClick={() => handleDeleteUser(user?._id)} title="Delete" className="btn btn-sm bg-red-400 hover:bg-red-500"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
+                                                    :
+                                                    null
+                                            }
                                         </th>
                                     </tr>
                                 ))

@@ -9,14 +9,14 @@ const blogApi = baseApi.injectEndpoints({
             }),
             providesTags: ["blog"],
         }),
-        // viewBlog: build.query({
-        //     query: (id) => ({
-        //         url: `/blog/admin-get-blog/${id}`,
-        //         method: "GET",
-        //     }),
-        //     providesTags: ["dashboard"],
-        // }),
+        viewBlogForUpdate: build.query({
+            query: (id) => ({
+                url: `/blog/admin-get-blog-for-update/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["blog"],
+        }),
     })
 });
 
-export const { useAllBlogQuery } = blogApi;
+export const { useAllBlogQuery, useViewBlogForUpdateQuery } = blogApi;

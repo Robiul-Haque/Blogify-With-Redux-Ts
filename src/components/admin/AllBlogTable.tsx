@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useAllBlogQuery } from "../../redux/features/admin/blog";
 import moment from "moment";
+import ViewBlogModal from "./ViewBlogModal";
+import EditBlogModal from "./EditBlogModal";
 
 type TBlog = {
     _id: string;
@@ -13,6 +16,10 @@ type TBlog = {
     likes: number;
     comments: string[];
     isPublished: boolean;
+    author: {
+        name: string;
+        role: string;
+    }
     createdAt: string;
     updatedAt: string;
 }
@@ -20,68 +27,77 @@ type TBlog = {
 const AllBlogTable = () => {
     const { data, isLoading } = useAllBlogQuery(undefined);
     const { data: AllBlog } = data || {};
+    const [blogId, setBlogId] = useState<string>("");
 
     if (isLoading) return <h2>Loading...</h2>;
 
-    const handleViewBlog = (id: string) => {
-        console.log(id);
-    }
-
     return (
-        <div className="overflow-x-auto">
-            <table className="table text-center">
-                <thead>
-                    <tr>
-                        <th>
-                            <label>
-                                <input type="checkbox" className="checkbox" />
-                            </label>
-                        </th>
-                        <th>Image</th>
-                        <th className="w-48">Name</th>
-                        <th className="w-48">Content</th>
-                        <th className="w-45">Category</th>
-                        <div className="flex justify-center items-center gap-3 w-42">
-                            <th className="flex justify-center items-center gap-2"><img className="size-5" src="https://img.icons8.com/fluency-systems-filled/50/facebook-like.png" alt="facebook-like" /> <span>Like</span></th>
-                            <th className="flex justify-center items-center gap-2"><img className="size-5" src="https://img.icons8.com/ios-glyphs/30/speech-bubble--v1.png" alt="speech-bubble--v1" /> Comment</th>
-                        </div>
-                        <th>Status</th>
-                        <th>createAt</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        AllBlog?.map((blog: TBlog) => (
-                            <tr key={blog?._id} className="hover:bg-gray-50">
-                                <td>
-                                    <label>
-                                        <input type="checkbox" className="checkbox" />
-                                    </label>
-                                </td>
-                                <td>
-                                    <img src={blog?.image?.url} alt={blog.title} className="size-11 rounded-full border-2" />
-                                </td>
-                                <td title={blog?.title}>{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
-                                <td title={blog?.content}>{blog?.content?.split(" ").length > 11 ? `${blog?.content?.split(" ").slice(0, 6).join(" ")}...` : blog.title}</td>
-                                <td title={blog?.category}>{blog?.category}</td>
-                                <div className="flex justify-around items-center gap-1 w-42">
-                                    <td className="font-semibold">{blog?.likes}</td>
-                                    <td className="font-semibold">{blog?.comments?.length}</td>
-                                </div>
-                                <td>{!blog?.isPublished ? <p className="text-green-500 font-bold">Publish</p> : <p className="text-red-500 font-bold">Not Publish</p>}</td>
-                                <td>{moment(blog?.createdAt).format("D MMM Y")}</td>
-                                <td className="flex justify-center max-sm:flex-col gap-3 mt-1">
-                                    <button onClick={() => handleViewBlog(blog?._id)} title="View" className="btn btn-success btn-sm"><img className="size-5" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/visible--v1.png" alt="visible--v1" /></button>
-                                    <button title="Edit" className="btn btn-primary btn-sm"><img className="size-5" src="https://img.icons8.com/material-sharp/24/FFFFFF/edit--v1.png" alt="edit--v1" /></button>
-                                    <button title="Delete" className="btn btn-error btn-sm"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-        </div>
+        <section className="mt-1">
+            <div className="overflow-x-auto">
+                <table className="table text-center">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label>
+                                    <input type="checkbox" className="checkbox" />
+                                </label>
+                            </th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <div className="flex justify-center items-center gap-3">
+                                <th className="flex justify-center items-center gap-2"><img className="size-3.5" src="https://img.icons8.com/fluency-systems-filled/50/facebook-like.png" alt="facebook-like" /> <span>Like</span></th>
+                                <th className="flex justify-center items-center gap-2"><img className="size-3.5" src="https://img.icons8.com/ios-glyphs/30/speech-bubble--v1.png" alt="speech-bubble--v1" /> Comment</th>
+                            </div>
+                            <th>Status</th>
+                            <th>Author</th>
+                            <th>Create</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            AllBlog?.map((blog: TBlog) => (
+                                <tr key={blog?._id} className="hover:bg-gray-50">
+                                    <td>
+                                        <label>
+                                            <input type="checkbox" className="checkbox" />
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <img src={blog?.image?.url} alt={blog.title} className="size-11 rounded-full border-2" />
+                                    </td>
+                                    <td title={blog?.title} className="text-xs font-semibold">{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
+                                    <td title={blog?.category} className="text-xs font-semibold">{blog?.category}</td>
+                                    <div className="flex justify-around items-center gap-1">
+                                        <td className="font-semibold text-xs">{blog?.likes}</td>
+                                        <td className="font-semibold text-xs">{blog?.comments?.length}</td>
+                                    </div>
+                                    <td>{blog?.isPublished ? <p className="text-green-500 bg-green-100/50 font-bold text-xs badge badge-sm">Publish</p> : <p className="text-red-500 bg-red-100/50 font-bold text-xs badge badge-sm">Not Publish</p>}</td>
+                                    <td className="font-semibold text-gray-500 text-xs">{blog?.author?.name}</td>
+                                    <td className="text-gray-600 text-xs font-semibold">{moment(blog?.createdAt).format("D MMM Y")}</td>
+                                    <td className="flex justify-center max-sm:flex-col gap-3 mt-2">
+                                        <button onClick={() => {
+                                            setBlogId(blog?._id);
+                                            const modal = document.getElementById("view_blog_modal");
+                                            if (modal) (modal as HTMLDialogElement).showModal();
+                                        }} title="View" className="btn btn-success btn-xs"><img className="size-5" src="https://img.icons8.com/ios-glyphs/30/FFFFFF/visible--v1.png" alt="visible--v1" /></button>
+                                        <button onClick={() => {
+                                            setBlogId(blog?._id);
+                                            const modal = document.getElementById("edit_blog_modal");
+                                            if (modal) (modal as HTMLDialogElement).showModal();
+                                        }} title="Edit" className="btn btn-primary btn-xs"><img className="size-5" src="https://img.icons8.com/material-sharp/24/FFFFFF/edit--v1.png" alt="edit--v1" /></button>
+                                        <button title="Delete" className="btn btn-error btn-xs"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <ViewBlogModal id={blogId} />
+            <EditBlogModal id={blogId} />
+        </section>
     )
 }
 
