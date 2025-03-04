@@ -65,10 +65,10 @@ const AllBlogTable = () => {
                                         </label>
                                     </td>
                                     <td>
-                                        <img src={blog?.image?.url} alt={blog.title} className="size-11 rounded-full border-2" />
+                                        <img src={blog?.image?.url} alt={blog.title} className="size-11" />
                                     </td>
-                                    <td title={blog?.title} className="text-xs font-semibold">{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
-                                    <td title={blog?.category} className="text-xs font-semibold">{blog?.category}</td>
+                                    <td title={blog?.title} className="text-xs">{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
+                                    <td title={blog?.category} className="text-xs">{blog?.category}</td>
                                     <div className="flex justify-around items-center gap-1">
                                         <td className="font-semibold text-xs">{blog?.likes}</td>
                                         <td className="font-semibold text-xs">{blog?.comments?.length}</td>
