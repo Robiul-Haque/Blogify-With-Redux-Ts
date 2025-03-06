@@ -32,7 +32,7 @@ const AllBlogTable = () => {
         <>
             {
                 isLoading ?
-                    <div className="skeleton w-[99%] h-80 mx-auto mt-1"></div>
+                    <div className="skeleton w-[95%] h-80 mx-auto mt-1"></div>
                     :
                     <section className="mt-1">
                         <div className="overflow-x-auto">
