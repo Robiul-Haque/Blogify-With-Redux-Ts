@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithRefreshToken = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
     let result = await baseQuery(args, api, extraOptions);
-
+    
     // If the request is unauthorized, check if the access token is expired send refresh token for new access token.
     if ((result as any)?.error?.data?.error?.statusCode === 401) {
         // Sending refresh token

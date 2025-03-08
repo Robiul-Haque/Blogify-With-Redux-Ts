@@ -11,7 +11,7 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
         viewBlog: build.query({
             query: (id) => ({
-                url: `/admin-get-blog-for-view/${id}`,
+                url: `/blog/admin-get-blog-for-view/${id}`,
                 method: "GET",
             }),
             providesTags: ["dashboard"],
