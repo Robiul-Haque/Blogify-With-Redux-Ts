@@ -16,7 +16,15 @@ const blogApi = baseApi.injectEndpoints({
             }),
             providesTags: ["blog"],
         }),
+        updateBlog: build.mutation({
+            query: (payload) => ({
+                url: "/blog/admin-update-blog",
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["blog"],
+        }),
     })
 });
 
-export const { useAllBlogQuery, useViewBlogForUpdateQuery } = blogApi;
+export const { useAllBlogQuery, useViewBlogForUpdateQuery, useUpdateBlogMutation } = blogApi;

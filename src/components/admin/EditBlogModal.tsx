@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useViewBlogForUpdateQuery } from "../../redux/features/admin/blog";
+import { useUpdateBlogMutation, useViewBlogForUpdateQuery } from "../../redux/features/admin/blog";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,6 +27,7 @@ const EditBlogModal = ({ id }: { id: string }) => {
         }
     );
     const [previewImage, setPreviewImage] = useState<string | null>(blogData?.image?.url || null);
+    const [updateBlog, { isLoading: updateLoading }] = useUpdateBlogMutation(undefined);
 
     useEffect(() => {
         reset({
@@ -48,26 +49,34 @@ const EditBlogModal = ({ id }: { id: string }) => {
 
     const onSubmit = (data: any): void => {
         const formData = new FormData();
-        formData.append("title", data.title);
-        formData.append("category", data.category);
-        formData.append("content", data.content);
-        if (data.image) formData.append("image", data.image);
 
-        for (let [key, value] of formData.entries()) console.log(`${key}:`, value);
+        const updateData = {
+            id: blogData?._id,
+            data: {
+                title: data.title,
+                category: data.category,
+                content: data.content,
+            }
+        }
+
+        formData.append("data", JSON.stringify(updateData));
+        formData.append("image", data.image);
+
+        updateBlog(formData);
     }
 
     return (
         <dialog id="edit_blog_modal" className="modal">
             {
                 isLoading ?
-                    <div className="skeleton w-[33%] h-[80%] mx-auto mt-12"></div>
+                    <div className="skeleton w-[30%] h-[75%] mx-auto mt-12"></div>
                     :
-                    <div className="modal-box h-[81%] overflow-auto">
+                    <div className="modal-box overflow-auto">
                         <form method="dialog">
                             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
-                        <form onSubmit={handleSubmit(onSubmit)} className="card-body mx-auto w-full">
-                            <h1 className="text-xl font-bold absolute left-54 top-6">Edit Blog</h1>
+                        <form onSubmit={handleSubmit(onSubmit)} className="card-body py-4 mx-auto w-full">
+                            <h1 className="text-xl font-bold absolute left-54 top-4">Edit Blog</h1>
                             <fieldset className="fieldset mx-auto w-full">
                                 <label className={`${errors.title ? "text-red-500 font-semibold" : null} fieldset-label text-sm mt-3`}>Title {errors.title ? "*" : null}</label>
                                 <input type="text" className={`${errors.title ? "focus:outline-red-500 border-red-500" : null} input w-full`} {...register("title")} />
@@ -83,12 +92,18 @@ const EditBlogModal = ({ id }: { id: string }) => {
                                 </div>
                                 <label className={`${errors.content ? "text-red-500 font-semibold" : null} fieldset-label text-sm mt-3`}>Content {errors.content ? "*" : null}</label>
                                 <textarea className={`${errors.content ? "focus:outline-red-500 border-red-500" : null} textarea w-full`} {...register("content")} rows={6} />
-                                <button type="submit" className="btn btn-neutral mt-4">Update</button>
+                                {
+                                    updateLoading ?
+                                        <button type="button" title="Updating..." className="btn btn-neutral opacity-90 mt-4"><span className="loading loading-bars loading-lg"></span></button>
+                                        :
+                                        <button type="submit" className="btn btn-neutral mt-4">Update</button>
+
+                                }
                             </fieldset>
                         </form>
                     </div>
             }
-        </dialog>
+        </dialog >
     )
 }
 
