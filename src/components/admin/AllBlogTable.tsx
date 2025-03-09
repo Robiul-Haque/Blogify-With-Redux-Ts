@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useAllBlogQuery } from "../../redux/features/admin/blog";
+import { useAllBlogQuery, useDeleteBlogMutation } from "../../redux/features/admin/blog";
 import moment from "moment";
 import ViewBlogModal from "./ViewBlogModal";
 import EditBlogModal from "./EditBlogModal";
+import Swal from "sweetalert2";
 
 type TBlog = {
     _id: string;
@@ -27,6 +28,35 @@ const AllBlogTable = () => {
     const { data, isLoading } = useAllBlogQuery(undefined);
     const { data: AllBlog } = data || {};
     const [blogId, setBlogId] = useState<string>("");
+    const [deleteBlog] = useDeleteBlogMutation();
+
+    const handleDeleteBlog = (id: string): void => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "",
+            confirmButtonText: "Yes, Delete"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteBlog(id).then(() => {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                }).catch(() => {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong!",
+                        icon: "error"
+                    });
+                });
+            }
+        });
+    }
 
     return (
         <>
@@ -85,7 +115,7 @@ const AllBlogTable = () => {
                                                         const modal = document.getElementById("edit_blog_modal");
                                                         if (modal) (modal as HTMLDialogElement).showModal();
                                                     }} title="Edit" className="btn btn-primary btn-xs"><img className="size-5" src="https://img.icons8.com/material-sharp/24/FFFFFF/edit--v1.png" alt="edit--v1" /></button>
-                                                    <button title="Delete" className="btn btn-error btn-xs"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
+                                                    <button onClick={() => handleDeleteBlog(blog?._id)} title="Delete" className="btn btn-error btn-xs"><img className="size-5" src="https://img.icons8.com/material-rounded/24/FFFFFF/filled-trash.png" alt="filled-trash" /></button>
                                                 </td>
                                             </tr>
                                         ))
