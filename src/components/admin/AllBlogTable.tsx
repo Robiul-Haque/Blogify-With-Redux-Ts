@@ -77,8 +77,10 @@ const AllBlogTable = () => {
                                         <th>Image</th>
                                         <th>Name</th>
                                         <th>Category</th>
-                                        <th><img className="size-3.5" title="Like" src="https://img.icons8.com/fluency-systems-filled/50/facebook-like.png" alt="facebook-like" /></th>
-                                        <th><img className="size-3.5" title="Comment" src="https://img.icons8.com/ios-glyphs/30/speech-bubble--v1.png" alt="speech-bubble--v1" /></th>
+                                        <span className="flex justify-center gap-x-2">
+                                            <th><img className="size-3.5" title="Like" src="https://img.icons8.com/fluency-systems-filled/50/facebook-like.png" alt="facebook-like" /></th>
+                                            <th><img className="size-3.5" title="Comment" src="https://img.icons8.com/ios-glyphs/30/speech-bubble--v1.png" alt="speech-bubble--v1" /></th>
+                                        </span>
                                         <th>Status</th>
                                         <th>Author</th>
                                         <th>Create</th>
@@ -99,8 +101,10 @@ const AllBlogTable = () => {
                                                 </td>
                                                 <td title={blog?.title} className="text-xs">{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
                                                 <td title={blog?.category} className="text-xs">{blog?.category}</td>
-                                                <td className="font-semibold text-xs">{blog?.likes}</td>
-                                                <td className="font-semibold text-xs">{blog?.comments?.length}</td>
+                                                <span className="flex justify-center gap-x-2">
+                                                    <td className="font-semibold text-xs">{blog?.likes}</td>
+                                                    <td className="font-semibold text-xs">{blog?.comments?.length}</td>
+                                                </span>
                                                 <td>{blog?.isPublished ? <p className="text-green-500 bg-green-100/50 font-bold text-xs badge badge-sm">Publish</p> : <p className="text-red-500 bg-red-100/50 font-bold text-xs badge badge-sm">Not Publish</p>}</td>
                                                 <td className="font-semibold text-gray-500 text-xs">{blog?.author?.name}</td>
                                                 <td className="text-gray-600 text-xs font-semibold">{moment(blog?.createdAt).format("D MMM Y")}</td>
