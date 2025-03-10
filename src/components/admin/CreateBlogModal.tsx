@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import { useCreateBlogMutation } from "../../redux/features/admin/blog";
+import { useAppSelector } from "../../redux/hooks";
+import { toast } from "sonner";
 
 const createBlogSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -17,12 +20,14 @@ const createBlogSchema = z.object({
 type Inputs = z.infer<typeof createBlogSchema>;
 
 const CreateBlogModal = () => {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<Inputs>(
+    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<Inputs>(
         {
             resolver: zodResolver(createBlogSchema),
         }
     );
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    const [createBlog, { data, isLoading }] = useCreateBlogMutation();
+    const adminId = useAppSelector(state => state.auth.id);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const file = e.target.files?.[0];
@@ -36,14 +41,25 @@ const CreateBlogModal = () => {
         const formData = new FormData();
 
         const createNewBlogData = {
+            author: adminId,
             title: data.title,
             category: data.category,
             content: data.content,
         }
-        console.log(data);
 
         formData.append("data", JSON.stringify(createNewBlogData));
         formData.append("image", data.image);
+
+        createBlog(formData)
+            .unwrap()
+            .then(() => {
+                reset();
+                setPreviewImage(null);
+            })
+            .catch((err) => {
+                toast.error("Failed to create blog. Please try again.");
+                console.error("Error:", err);
+            })
     }
 
     return (
@@ -53,8 +69,8 @@ const CreateBlogModal = () => {
                     <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
                 <form onSubmit={handleSubmit(onSubmit)} className="card-body py-4 mx-auto w-full">
-                    <h1 className="text-xl font-bold absolute left-52 top-4">Create Blog</h1>
                     <fieldset className="fieldset mx-auto w-full">
+                        <h1 className="text-xl font-bold">Create Blog</h1>
                         <label className={`${errors.title ? "text-red-500 font-semibold" : null} fieldset-label text-sm mt-3`}>Title {errors.title ? "*" : null}</label>
                         <input type="text" className={`${errors.title ? "focus:outline-red-500 border-red-500" : null} input w-full`} {...register("title")} />
                         <label className={`${errors.category ? "text-red-500 font-semibold" : null} fieldset-label text-sm mt-3`}>Category {errors.category ? "*" : null}</label>
@@ -69,14 +85,13 @@ const CreateBlogModal = () => {
                         </div>
                         <label className={`${errors.content ? "text-red-500 font-semibold" : null} fieldset-label text-sm mt-3`}>Content {errors.content ? "*" : null}</label>
                         <textarea className={`${errors.content ? "focus:outline-red-500 border-red-500" : null} textarea w-full`} {...register("content")} rows={6} />
-                        {/* {
-                            updateLoading ?
-                                <button type="button" title="Updating..." className="btn btn-neutral opacity-90 mt-4"><span className="loading loading-bars loading-lg"></span></button>
+                        {
+                            isLoading ?
+                                <button type="button" title="Creating..." className="btn btn-neutral opacity-90 mt-4"><span className="loading loading-bars loading-lg"></span></button>
                                 :
-                                <button type="submit" className="btn btn-neutral mt-4">Update</button>
+                                <button type="submit" className="btn btn-neutral mt-4">Create</button>
 
-                        } */}
-                        <button type="submit" className="btn btn-neutral mt-4">Create</button>
+                        }
                     </fieldset>
                 </form>
             </div>

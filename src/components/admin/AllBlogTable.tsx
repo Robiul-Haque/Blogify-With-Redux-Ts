@@ -97,7 +97,7 @@ const AllBlogTable = () => {
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <img src={blog?.image?.url} alt={blog.title} className="size-11" />
+                                                    <img src={blog?.image?.url} alt={blog.title} className="size-12 rounded mx-auto" />
                                                 </td>
                                                 <td title={blog?.title} className="text-xs">{blog?.title?.split(" ").length > 10 ? `${blog?.title?.split(" ").slice(0, 10).join(" ")}...` : blog.title}</td>
                                                 <td title={blog?.category} className="text-xs">{blog?.category}</td>

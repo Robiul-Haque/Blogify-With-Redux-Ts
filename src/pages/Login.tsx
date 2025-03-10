@@ -43,9 +43,9 @@ const Login = () => {
             const res = await login(userInfo).unwrap();
 
             // Decoded the new token, set the new access token & user info in the auth state, set the refresh token cookies, then navigate the admin dashboard.
-            const { name, email, role } = decodedToken(res?.data?.accessToken);
+            const { id, name, email, role } = decodedToken(res?.data?.accessToken);
             const token = res?.data?.accessToken;
-            dispatch(setUser({ name, email, role, token }));
+            dispatch(setUser({ id, name, email, role, token }));
 
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 

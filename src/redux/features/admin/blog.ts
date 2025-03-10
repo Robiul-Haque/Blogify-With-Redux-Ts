@@ -2,6 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const blogApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
+        createBlog: build.mutation({
+            query: (payload) => ({
+                url: "/blog/admin-create-blog",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["blog"],
+        }),
         allBlog: build.query({
             query: () => ({
                 url: "/blog/admin-get-all-blog",
@@ -34,4 +42,4 @@ const blogApi = baseApi.injectEndpoints({
     })
 });
 
-export const { useAllBlogQuery, useViewBlogForUpdateQuery, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
+export const { useCreateBlogMutation, useAllBlogQuery, useViewBlogForUpdateQuery, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
