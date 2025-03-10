@@ -4,9 +4,9 @@ import AllBlogTable from "../../components/admin/AllBlogTable";
 const Blog = () => {
     return (
         <>
-            <section className="flex justify-between items-center gap-2 mt-4">
+            <section className="flex justify-between items-center gap-2 my-5">
                 <div>Bradcamp</div>
-                <h2 className="text-2xl font-semibold">All Blogs</h2>
+                <h2 className="text-2xl text-neutral-500 font-semibold">All Blogs</h2>
                 <button onClick={() => {
                     const modal = document.getElementById("create_blog_modal");
                     if (modal) (modal as HTMLDialogElement).showModal();
