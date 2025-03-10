@@ -26,7 +26,7 @@ const CreateBlogModal = () => {
         }
     );
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [createBlog, { data, isLoading }] = useCreateBlogMutation();
+    const [createBlog, { isLoading }] = useCreateBlogMutation();
     const adminId = useAppSelector(state => state.auth.id);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

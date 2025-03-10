@@ -5,7 +5,7 @@ const Blog = () => {
     return (
         <>
             <section className="flex justify-between items-center gap-2 my-5">
-                <div>Bradcamp</div>
+                <div></div>
                 <h2 className="text-2xl text-neutral-500 font-semibold">All Blogs</h2>
                 <button onClick={() => {
                     const modal = document.getElementById("create_blog_modal");
