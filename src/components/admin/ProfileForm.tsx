@@ -1,5 +1,9 @@
+import { useViewProfileInfoQuery } from "../../redux/features/admin/profile";
 
 const ProfileForm = () => {
+    const { data, isLoading } = useViewProfileInfoQuery(undefined);
+    console.log(data);
+
     return (
         <form className="flex items-center flex-col">
             <div className="w-[90%] px-5.5">
