@@ -9,7 +9,15 @@ const profileApi = baseApi.injectEndpoints({
             }),
             providesTags: ["profile"],
         }),
+        updateProfileInfo: build.mutation({
+            query: (payload) => ({
+                url: "/user/update-admin-info",
+                method: "PATCH",
+                body: payload
+            }),
+            invalidatesTags: ["profile"],
+        }),
     })
 });
 
-export const { useViewProfileInfoQuery } = profileApi;
+export const { useViewProfileInfoQuery, useUpdateProfileInfoMutation } = profileApi;

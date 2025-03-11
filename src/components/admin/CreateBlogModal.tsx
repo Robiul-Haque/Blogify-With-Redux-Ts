@@ -57,7 +57,7 @@ const CreateBlogModal = () => {
                 setPreviewImage(null);
             })
             .catch((err) => {
-                toast.error("Failed to create blog. Please try again.");
+                toast.error("Failed to create blog, Please try again.");
                 console.error("Error:", err);
             })
     }
