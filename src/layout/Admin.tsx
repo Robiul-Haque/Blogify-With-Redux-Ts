@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation } from "react-router";
 import { useAppDispatch } from "../redux/hooks";
 import { logout } from "../redux/features/auth/authSlice";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const Admin = () => {
   const { pathname } = useLocation();
@@ -10,8 +11,26 @@ const Admin = () => {
   const dispatch = useAppDispatch();
 
   const handleLogOut = (): void => {
-    dispatch(logout());
-    Cookies.remove("refreshToken");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to logout!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "",
+      confirmButtonText: "Yes, Logout"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logout());
+        Cookies.remove("refreshToken");
+      }
+    }).catch(() => {
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong, can't logout!",
+        icon: "error"
+      })
+    });
   }
 
   return (
