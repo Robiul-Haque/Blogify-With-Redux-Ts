@@ -111,14 +111,12 @@ const AllUserTable = () => {
                                                                 <svg className="bg-red-400 rounded-full" aria-label="disabled" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                                             </label>
                                                 }
-                                                <p>
-                                                    {
-                                                        user?.isBlocked ?
-                                                            <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Block</p>
-                                                            :
-                                                            <p className="text-green-400 bg-green-100/40 text-xs badge font-bold">Active</p>
-                                                    }
-                                                </p>
+                                                {
+                                                    user?.isBlocked ?
+                                                        <p className="text-red-400 bg-red-100/40 text-xs badge font-bold">Block</p>
+                                                        :
+                                                        <p className="text-green-400 bg-green-100/40 text-xs badge font-bold">Active</p>
+                                                }
                                             </div>
                                         </td>
                                         <th>

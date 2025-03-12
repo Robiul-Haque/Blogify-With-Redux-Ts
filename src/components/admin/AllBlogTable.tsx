@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAllBlogQuery, useDeleteBlogMutation } from "../../redux/features/admin/blog";
+import { useAllBlogQuery, useChangeBlogStatusMutation, useDeleteBlogMutation } from "../../redux/features/admin/blog";
 import moment from "moment";
 import ViewBlogModal from "./ViewBlogModal";
 import EditBlogModal from "./EditBlogModal";
@@ -27,8 +27,18 @@ type TBlog = {
 const AllBlogTable = () => {
     const { data, isLoading } = useAllBlogQuery(undefined);
     const { data: AllBlog } = data || {};
+    const [changeBlogStatus, { data: changeBlogStatusData, isLoading: changeBlogStatusLoading }] = useChangeBlogStatusMutation();
     const [blogId, setBlogId] = useState<string>("");
     const [deleteBlog] = useDeleteBlogMutation();
+    console.log("Change blog status data: ", changeBlogStatusData);
+
+    const handleBlogStatusChange = (id: string, status: string) => {
+        if (status === "publish") {
+            changeBlogStatus({ id, data: true })
+        } else if (status === "not publish") {
+            changeBlogStatus({ id, data: false })
+        }
+    }
 
     const handleDeleteBlog = (id: string): void => {
         Swal.fire({
@@ -105,10 +115,15 @@ const AllBlogTable = () => {
                                                     <td className="font-semibold text-xs">{blog?.likes}</td>
                                                     <td className="font-semibold text-xs">{blog?.comments?.length}</td>
                                                 </span>
-                                                <td>{blog?.isPublished ? <p className="text-green-500 bg-green-100/50 font-bold text-xs badge badge-sm">Publish</p> : <p className="text-red-500 bg-red-100/50 font-bold text-xs badge badge-sm">Not Publish</p>}</td>
+                                                <td className="w-34">
+                                                    <select onChange={(e) => handleBlogStatusChange(blog?._id, e.target.value)} className={`${blog?.isPublished ? "border-green-500 text-green-500" : "border-red-500 text-red-500"} select select-xs cursor-pointer focus:outline-none`}>
+                                                        <option selected={blog?.isPublished ? true : false} value="publish" className="text-green-500">Publish</option>
+                                                        <option selected={!blog?.isPublished ? true : false} value="not publish" className="text-red-500">Not Publish</option>
+                                                    </select>
+                                                </td>
                                                 <td className="font-semibold text-gray-500 text-xs">{blog?.author?.name}</td>
                                                 <td className="text-gray-600 text-xs font-semibold">{moment(blog?.createdAt).format("D MMM Y")}</td>
-                                                <td className="flex justify-center max-sm:flex-col gap-3 mt-2">
+                                                <td className="flex justify-center max-sm:flex-col gap-3 mt-3">
                                                     <button onClick={() => {
                                                         setBlogId(blog?._id);
                                                         const modal = document.getElementById("view_blog_modal");

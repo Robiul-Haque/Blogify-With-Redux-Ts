@@ -17,6 +17,14 @@ const blogApi = baseApi.injectEndpoints({
             }),
             providesTags: ["blog"],
         }),
+        changeBlogStatus: build.mutation({
+            query: (payload) => ({
+                url: "/blog/admin-change-blog-status",
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["blog"],
+        }),
         viewBlogForUpdate: build.query({
             query: (id) => ({
                 url: `/blog/admin-get-blog-for-update/${id}`,
@@ -42,4 +50,4 @@ const blogApi = baseApi.injectEndpoints({
     })
 });
 
-export const { useCreateBlogMutation, useAllBlogQuery, useViewBlogForUpdateQuery, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
+export const { useCreateBlogMutation, useAllBlogQuery, useChangeBlogStatusMutation, useViewBlogForUpdateQuery, useUpdateBlogMutation, useDeleteBlogMutation } = blogApi;
