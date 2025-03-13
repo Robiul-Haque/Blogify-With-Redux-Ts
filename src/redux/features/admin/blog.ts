@@ -11,8 +11,8 @@ const blogApi = baseApi.injectEndpoints({
             invalidatesTags: ["blog"],
         }),
         allBlog: build.query({
-            query: () => ({
-                url: "/blog/admin-get-all-blog",
+            query: (name) => ({
+                url: `/blog/admin-get-all-blog?name=${name}`,
                 method: "GET",
             }),
             providesTags: ["blog"],

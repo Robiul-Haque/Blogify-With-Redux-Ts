@@ -24,13 +24,12 @@ type TBlog = {
     createdAt: string;
     updatedAt: string;
 }
-const AllBlogTable = () => {
-    const { data, isLoading } = useAllBlogQuery(undefined);
+const AllBlogTable = ({ searchName }: { searchName: string }) => {
+    const { data, isLoading } = useAllBlogQuery(searchName);
     const { data: AllBlog } = data || {};
-    const [changeBlogStatus, { data: changeBlogStatusData, isLoading: changeBlogStatusLoading }] = useChangeBlogStatusMutation();
+    const [changeBlogStatus] = useChangeBlogStatusMutation();
     const [blogId, setBlogId] = useState<string>("");
     const [deleteBlog] = useDeleteBlogMutation();
-    console.log("Change blog status data: ", changeBlogStatusData);
 
     const handleBlogStatusChange = (id: string, status: string) => {
         if (status === "publish") {
