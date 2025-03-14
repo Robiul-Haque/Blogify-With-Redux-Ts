@@ -3,8 +3,8 @@ import AllBlogTable from "../../components/admin/AllBlogTable";
 import { useState } from "react";
 
 const Blog = () => {
-    const [searchName, setSearchName] = useState<string>("");
     const [filterBlogStatus, setFilterBlogStatus] = useState<boolean | undefined>(undefined);
+    const [searchName, setSearchName] = useState<string>("");
 
     const handleFilterBlogStatus = (status: string): void => {
         if (status === "true") {

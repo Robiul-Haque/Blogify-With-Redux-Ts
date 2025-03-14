@@ -3,8 +3,8 @@ import { baseApi } from "../../api/baseApi";
 const userApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         AllUser: build.query({
-            query: () => ({
-                url: "/user/admin-get-all-user",
+            query: ({ userFilter, search }: { userFilter: string, search: string }) => ({
+                url: `/user/admin-get-all-user?status=${userFilter}&search=${search}`,
                 method: "GET",
             }),
             providesTags: ["user"],

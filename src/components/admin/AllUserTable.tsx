@@ -17,8 +17,8 @@ type TUser = {
     updatedAt: string;
 }
 
-const AllUserTable = () => {
-    const { data: allUsers, isLoading } = useAllUserQuery(undefined);
+const AllUserTable = ({ userFilterSearch, search }: { userFilterSearch: string, search: string }) => {
+    const { data: allUsers, isLoading } = useAllUserQuery({ userFilter: userFilterSearch, search: search });
     const [blockUser, { isLoading: blockUserLoading }] = useBlockUserMutation();
     const [deleteUser] = useDeleteUserMutation();
 
