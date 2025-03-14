@@ -6,7 +6,7 @@ const Blog = () => {
     const [searchName, setSearchName] = useState<string>("");
     const [filterBlogStatus, setFilterBlogStatus] = useState<boolean | undefined>(undefined);
 
-    const handleFilterBlogStatus = (status: string) => {
+    const handleFilterBlogStatus = (status: string): void => {
         if (status === "true") {
             setFilterBlogStatus(true);
         } else if (status === "false") {
