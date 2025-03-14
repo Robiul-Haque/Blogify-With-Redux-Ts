@@ -24,8 +24,8 @@ type TBlog = {
     createdAt: string;
     updatedAt: string;
 }
-const AllBlogTable = ({ searchName }: { searchName: string }) => {
-    const { data, isLoading } = useAllBlogQuery(searchName);
+const AllBlogTable = ({ filterBlogStatus, searchName }: { filterBlogStatus: boolean | undefined, searchName: string }) => {
+    const { data, isLoading } = useAllBlogQuery({ status: filterBlogStatus, name: searchName });
     const { data: AllBlog } = data || {};
     const [changeBlogStatus] = useChangeBlogStatusMutation();
     const [blogId, setBlogId] = useState<string>("");
