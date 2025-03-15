@@ -1,10 +1,11 @@
+import Navbar from "../../shared/Navbar"
 
 const Home = () => {
-  return (
-    <div>
-      Home Component
-    </div>
-  )
+    return (
+        <>
+            <Navbar />
+        </>
+    )
 }
 
 export default Home;
