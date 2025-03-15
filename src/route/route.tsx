@@ -6,11 +6,12 @@ import Dashboard from "../pages/admin/Dashboard";
 import Blog from "../pages/admin/Blog";
 import User from "../pages/admin/User";
 import Profile from "../pages/admin/Profile";
+import Home from "../pages/user/Home";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <h2>Home</h2>
+        element: <Home />
     },
     {
         path: "/login",
