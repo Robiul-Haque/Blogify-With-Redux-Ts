@@ -1,9 +1,9 @@
-import Navbar from "../../shared/Navbar"
+import Header from "../../components/user/Header";
 
 const Home = () => {
     return (
         <>
-            <Navbar />
+            <Header />
         </>
     )
 }
