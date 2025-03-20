@@ -3,6 +3,7 @@ import authReducers from './features/auth/authSlice';
 import { baseApi } from './api/baseApi';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import userReducers from './features/user/userSlice';
 
 const node_env = import.meta.env.VITE_NODE_ENV;
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     reducer: {
         [baseApi.reducerPath]: baseApi.reducer,
         auth: persistedAuthReducer,
+        user: userReducers,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(baseApi.middleware),
     devTools: node_env === "development",

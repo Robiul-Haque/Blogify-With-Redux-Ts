@@ -1,9 +1,12 @@
 import { useGetAllBlogQuery } from "../../redux/features/user/userApi";
+import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
 
 const Blog = () => {
-    const { data, isLoading } = useGetAllBlogQuery(undefined);
+    const { searchName } = useAppSelector((state: RootState) => state.user);
+    const { data, isLoading } = useGetAllBlogQuery(searchName ? { name: searchName } : { name: "" });
     const { data: allBlog } = data || {};
-    console.log(allBlog);
+    console.log("Get data form redux store: ", searchName);
 
     return (
         <div className="flex justify-between gap-20 flex-wrap m-15 p-20 bg-gray-100 rounded-2xl">

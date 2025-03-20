@@ -3,8 +3,8 @@ import { baseApi } from "../../api/baseApi";
 const userApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         getAllBlog: build.query({
-            query: () => ({
-                url: "/blog/get-all-blog",
+            query: ({ name }: { name: string }) => ({
+                url: `/blog/get-all-blog?name=${name}`,
                 method: "GET",
             }),
         }),
