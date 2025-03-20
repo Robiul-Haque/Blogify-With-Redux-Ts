@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
+import { Autoplay, EffectFade } from 'swiper/modules';
 import "swiper/swiper-bundle.css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
@@ -25,11 +25,8 @@ const Hero = () => {
                 delay: 3000,
                 disableOnInteraction: false,
             }}
-            pagination={{
-                clickable: true,
-            }}
-            modules={[EffectFade, Autoplay, Pagination]}
-            className="mySwiper h-90 z-0 relative"
+            modules={[EffectFade, Autoplay]}
+            className="mySwiper h-85 z-0 relative"
         >
             <SwiperSlide>
                 <img src={img_1} alt="image-1" className="bg-green-100 w-full h-full object-cover grayscale" />
@@ -44,10 +41,10 @@ const Hero = () => {
                 <img src={img_4} alt="image-4" className="bg-yellow-100 w-full h-full object-cover grayscale" />
             </SwiperSlide>
 
-            <div className="flex justify-center items-center gap-x-4 h-80 z-50 absolute" style={{ top: "5%", left: "38%" }}>
+            <div className="flex justify-center items-center gap-x-2 h-80 z-50 absolute" style={{ top: "4%", left: "38%" }}>
                 <label className="input">
                     <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g></svg>
-                    <input type="search" onChange={(e) => setSearchName(e.target.value)} required placeholder="Search" className="w-80" />
+                    <input type="search" onChange={(e) => setSearchName(e.target.value)} required placeholder="Search By Blog or Author Name" className="w-80" />
                 </label>
                 <button type="submit" className="btn btn-neutral">Search</button>
             </div>
