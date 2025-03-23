@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetAllBlogQuery } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -6,11 +7,12 @@ const Blog = () => {
     const { searchName } = useAppSelector((state: RootState) => state.user);
     const { data, isLoading } = useGetAllBlogQuery(searchName ? { name: searchName } : { name: "" });
     const { data: allBlog } = data || {};
+    const [liked, setLiked] = useState<boolean>(false);
 
     return (
         <div className="flex justify-between gap-14 flex-wrap m-10 p-15 bg-gray-100 rounded-2xl">
             {
-                isLoading ? <div className="skeleton mx-auto"></div>
+                isLoading ? <div className="skeleton h-50 mx-auto"></div>
                     :
                     allBlog?.map((item: any) => {
                         return (
@@ -24,8 +26,21 @@ const Blog = () => {
                                 <div className="card-body p-6">
                                     <h2 className="card-title">{item?.title}</h2>
                                     <p>{item?.content}</p>
-                                    <div className="card-actions mt-2">
+                                    <div className="card-actions flex items-center gap-x-6 mt-2">
                                         <button className="btn btn-naturl btn-sm">Read More</button>
+                                        <span className="flex items-center gap-x-3">
+                                            {
+                                                liked ?
+                                                    <img onClick={() => setLiked(false)} className="size-5 cursor-pointer" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                                                    :
+                                                    <img onClick={() => setLiked(true)} className="size-5 cursor-pointer" src="https://img.icons8.com/ios-filled/50/facebook-like.png" alt="facebook-like" />
+                                            }
+                                            {item?.likes}
+                                        </span>
+                                        <span className="flex items-center gap-x-3">
+                                            <img className="size-5" src="https://img.icons8.com/ios-glyphs/30/speech-bubble--v1.png" alt="speech-bubble--v1" />
+                                            {item?.comments.length}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
