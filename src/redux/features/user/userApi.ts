@@ -8,7 +8,13 @@ const userApi = baseApi.injectEndpoints({
                 method: "GET",
             }),
         }),
+        getBlog: build.query({
+            query: ({ id }: { id: string }) => ({
+                url: `/blog/get-blog/${id}`,
+                method: "GET",
+            }),
+        }),
     })
 });
 
-export const { useGetAllBlogQuery } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery } = userApi;

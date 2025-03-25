@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useGetAllBlogQuery } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
+import { Link } from "react-router";
 
 const Blog = () => {
     const { searchName } = useAppSelector((state: RootState) => state.user);
@@ -27,7 +28,7 @@ const Blog = () => {
                                     <h2 className="card-title">{item?.title}</h2>
                                     <p>{item?.content}</p>
                                     <div className="card-actions flex items-center gap-x-6 mt-2">
-                                        <button className="btn btn-naturl btn-sm">Read More</button>
+                                        <Link to={`/blog/${item?._id}`} className="btn btn-naturl btn-sm">Read More</Link>
                                         <span className="flex items-center gap-x-3">
                                             {
                                                 liked ?

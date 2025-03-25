@@ -7,11 +7,16 @@ import Blog from "../pages/admin/Blog";
 import User from "../pages/admin/User";
 import Profile from "../pages/admin/Profile";
 import Home from "../pages/user/Home";
+import ViewBlog from "../pages/user/ViewBlog";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Home />
+    },
+    {
+        path: "/blog/:id",
+        element: <ViewBlog />
     },
     {
         path: "/login",
