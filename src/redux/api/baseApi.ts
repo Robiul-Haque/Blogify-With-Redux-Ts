@@ -14,11 +14,11 @@ const baseQuery = fetchBaseQuery({
     },
 })
 
-const baseQueryWithRefreshToken = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
+const baseQueryWithRefreshToken = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: object) => {
     let result = await baseQuery(args, api, extraOptions);
 
     // If the request is unauthorized, check if the access token is expired send refresh token for new access token.
-    if ((result as any)?.error?.data?.error?.statusCode === 401) {
+    if ((result as { error?: { data?: { error?: { statusCode?: number } } } })?.error?.data?.error?.statusCode === 401) {
         // Sending refresh token
         const res = await fetch(`${baseUrl}/auth/refresh-token`, {
             method: "POST",

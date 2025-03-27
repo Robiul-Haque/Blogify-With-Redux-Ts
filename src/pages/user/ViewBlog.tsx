@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useGetBlogQuery } from "../../redux/features/user/userApi";
+import { useCreateLikeBlogMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -12,17 +12,33 @@ const ViewBlog = () => {
     const [totalLikes, setTotalLikes] = useState<number>(0);
     const [isLiked, setIsLiked] = useState<boolean>(false);
     const userId = useAppSelector((state: RootState) => state.auth.id);
-    console.log(totalLikes, isLiked);
+    const [createBlogLike] = useCreateLikeBlogMutation();
+    // console.log("Blog Data: ", blogData);
+    console.log(totalLikes, isLiked, userId);
 
     useEffect(() => {
         // Count total likes
-        const activeLikes = blogData?.likes.filter((like) => !like.isDeleted).length;
+        const activeLikes = blogData?.like.filter(({ isDeleted }: { isDeleted: boolean }) => !isDeleted).length;
         setTotalLikes(activeLikes);
 
         // Check if the user has already liked the blog
-        const userLiked = blogData?.likes.some((like) => like.user === userId && !like.isDeleted);
+        const userLiked = blogData?.like.some(({ user, isDeleted }: { user: string; isDeleted: boolean }) => user === userId && !isDeleted);
         setIsLiked(userLiked);
-    }, [blogData?.likes, userId]);
+        console.log("User Liked: ", userLiked);
+    }, [blogData?.like, userId]);
+
+    const handleLike = (userId: string | null, blogId: string | null, totalLikes: number): void => {
+        setIsLiked(!isLiked);
+        setTotalLikes(totalLikes);
+        createBlogLike({ blog: blogId, user: userId })
+            .unwrap()
+            .then((res) => {
+                console.log("Like Response: ", res);
+            })
+            .catch((err) => {
+                console.log("Like Error: ", err);
+            });
+    }
 
     return (
         <section className="bg-base-200 w-[50%] mx-auto p-10">
@@ -49,11 +65,11 @@ const ViewBlog = () => {
                 <span className="flex items-center gap-2">
                     {
                         isLiked ?
-                            <img className="size-5 cursor-pointer" title="Unlike" src="https://img.icons8.com/material/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                            <img onClick={() => handleLike("", "", totalLikes - 1)} className="size-5 cursor-pointer" title="Unlike" src="https://img.icons8.com/material/24/facebook-like--v1.png" alt="facebook-like--v1" />
                             :
-                            <img className="size-5 cursor-pointer" title="Like" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                            <img onClick={() => handleLike(userId, blogData?.blog?._id, totalLikes + 1)} className="size-5 cursor-pointer" title="Like" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" />
                     }
-                    {blogData?.blog?.likes}
+                    {totalLikes}
                 </span>
                 <span className="flex items-center gap-2">
                     <img className="size-5 cursor-pointer" title="Comment" src="https://img.icons8.com/windows/32/speech-bubble--v1.png" alt="speech-bubble--v1" />
