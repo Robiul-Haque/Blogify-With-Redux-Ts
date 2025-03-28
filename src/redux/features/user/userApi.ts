@@ -16,7 +16,7 @@ const userApi = baseApi.injectEndpoints({
             }),
             providesTags: ["blog"],
         }),
-        createLikeBlog: build.mutation({
+        createLike: build.mutation({
             query: (payload) => ({
                 url: "/like/like",
                 method: "POST",
@@ -24,7 +24,14 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["blog"],
         }),
+        deleteLike: build.mutation({
+            query: (id) => ({
+                url: `/like/unlike/${id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["blog"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeBlogMutation } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation } = userApi;
