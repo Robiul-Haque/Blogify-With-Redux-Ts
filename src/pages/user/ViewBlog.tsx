@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
+import { useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -22,14 +22,12 @@ const ViewBlog = () => {
     const { data: blogData } = data || {};
     const [totalLikes, setTotalLikes] = useState<number>(0);
     const [isLiked, setIsLiked] = useState<boolean>(false);
-    const userId = useAppSelector((state: RootState) => state.auth.id);
+    const { id: userId } = useAppSelector((state: RootState) => state.auth);
     const [createLike] = useCreateLikeMutation();
     const [deleteLike] = useDeleteLikeMutation();
-
     const [comments, setComments] = useState<TComment[]>([]);
     const [newComment, setNewComment] = useState("");
-    console.log("Blog Data: ", blogData);
-    console.log("Comment: ", comments);
+    const [createComment] = useCreateCommentMutation();
 
     useEffect(() => {
         // Count total likes
@@ -53,10 +51,11 @@ const ViewBlog = () => {
     }
 
     const handleAddComment = () => {
-        // if (newComment.trim() !== "") {
-        //     setComments([...comments, { username: "You", text: newComment }]);
-        //     setNewComment("");
-        // }
+        if (!newComment) return;
+        console.log("New Comment: ", { blog: blogData?.blog?._id, user: userId, comment: newComment });
+        createComment({ blog: blogData?.blog?._id, user: userId, comment: newComment })
+            .unwrap()
+            .then(() => setNewComment(""))
     };
 
     return (
@@ -98,12 +97,11 @@ const ViewBlog = () => {
                 <img className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
                 {/* <img className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" /> */}
             </div>
-            <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 py-2">
                 <h2 className="text-lg font-semibold mb-4">Comments</h2>
-                <div className="flex items-start space-x-2 mb-6">
-                    <img src="https://via.placeholder.com/40" alt="Your Avatar" className="w-10 h-10 rounded-full"/>
+                <div className="flex items-start space-x-2 mb-10">
                     <div className="flex-1">
-                        <textarea className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none" rows={3} placeholder="Write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)}/>
+                        <textarea className="w-full p-2 border rounded-lg focus:ring-2 focus:border-black-500 focus:outline-none resize-none" rows={3} placeholder="Write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
                         <button className="mt-2 btn btn-neutral btn-sm" onClick={handleAddComment}>Post Comment</button>
                     </div>
                 </div>

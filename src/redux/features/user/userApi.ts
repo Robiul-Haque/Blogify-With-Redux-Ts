@@ -31,7 +31,15 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["blog"],
         }),
+        createComment: build.mutation({
+            query: (payload) => ({
+                url: "/comment/create-comment",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["blog"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation } = userApi;

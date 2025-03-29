@@ -11,7 +11,7 @@ const Blog = () => {
     const [liked, setLiked] = useState<boolean>(false);
 
     return (
-        <div className="flex justify-between gap-14 flex-wrap m-10 p-15 bg-gray-100 rounded-2xl">
+        <div className="flex justify-start gap-14 flex-wrap m-10 p-15 bg-gray-100 rounded-2xl">
             {
                 isLoading ? <div className="skeleton h-50 mx-auto"></div>
                     :
