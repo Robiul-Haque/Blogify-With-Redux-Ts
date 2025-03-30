@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
@@ -28,6 +28,10 @@ const ViewBlog = () => {
     const [comments, setComments] = useState<TComment[]>([]);
     const [newComment, setNewComment] = useState("");
     const [createComment] = useCreateCommentMutation();
+    const [isOpenShareMenu, setIsOpenShareMenu] = useState<boolean>(false);
+    const { pathname } = useLocation();
+    const blogUrl = `${window.location.origin}${pathname}`;
+    console.log(isOpenShareMenu, blogUrl);
 
     useEffect(() => {
         // Count total likes
@@ -57,6 +61,11 @@ const ViewBlog = () => {
             .unwrap()
             .then(() => setNewComment(""))
     };
+
+    // const handleCopyLink = () => {
+    //     navigator.clipboard.writeText(blogUrl);
+    //     alert("Blog link copied to clipboard!");
+    // };
 
     return (
         <section className="bg-base-200 w-[50%] mx-auto p-10">
@@ -93,10 +102,44 @@ const ViewBlog = () => {
                     <img className="size-5 cursor-pointer" title="Comment" src="https://img.icons8.com/windows/32/speech-bubble--v1.png" alt="speech-bubble--v1" />
                     {blogData?.blog?.comments.length}
                 </span>
-                <img className="size-5 cursor-pointer" title="Share" src="https://img.icons8.com/fluency-systems-filled/50/share-3.png" alt="share-3" />
+                <span className="relative">
+                    <img onClick={() => setIsOpenShareMenu(!isOpenShareMenu)} className="size-5 cursor-pointer" title="Share" src="https://img.icons8.com/fluency-systems-filled/50/share-3.png" alt="share-3" />
+                    {
+                        isOpenShareMenu && <div className="absolute top-8 left-[-90px] w-50 bg-base-200 rounded-lg shadow-lg p-4 flex justify-around items-center gap-3">
+                            <span className="cursor-pointer">
+                                <img className="size-7" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/facebook-new.png" alt="facebook-new" title="Facebook" />
+                            </span>
+                            <span className="cursor-pointer">
+                                <img className="size-7" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/linkedin-circled--v1.png" alt="linkedin-circled--v1" title="Linkedin" />
+                            </span>
+                            <span className="cursor-pointer">
+                                <img className="size-7" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/twitter-circled--v1.png" alt="twitter-circled--v1" title="Twitter" />
+                            </span>
+                            <img className="size-7 cursor-pointer" title="Copy Link" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/copy.png" alt="copy" onClick={() => {
+                                navigator.clipboard.writeText(blogUrl);
+                                alert("Blog link copied to clipboard!");
+                            }} />
+                        </div>
+                    }
+                </span>
+                {/* <button
+                    onClick={handleCopyLink}
+                    className="text-gray-600 hover:opacity-80"
+                    title="Copy Link"
+                >
+                    Share
+                </button> */}
                 <img className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
                 {/* <img className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" /> */}
             </div>
+            {/* <a
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(blogUrl)}&text=${encodeURIComponent(blogData?.blog?.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:opacity-80"
+            >
+                Twitter
+            </a> */}
             <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 py-2">
                 <h2 className="text-lg font-semibold mb-4">Comments</h2>
                 <div className="flex items-start space-x-2 mb-10">
