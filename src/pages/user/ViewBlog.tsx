@@ -130,7 +130,7 @@ const ViewBlog = () => {
                         </div>
                     }
                 </span>
-                <img className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
+                <img onClick={() => console.log("Bookmark Blog ID: ", blogData?.blog?._id)} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
                 {/* <img className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" /> */}
             </div>
             <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 pt-6 pb-2">
