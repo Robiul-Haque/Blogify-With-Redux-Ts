@@ -1,5 +1,5 @@
-import { useLocation, useParams } from "react-router";
-import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery, useRemoveBookmarkBlogMutation } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -32,7 +32,10 @@ const ViewBlog = () => {
     const { pathname } = useLocation();
     const blogUrl = `${window.location.origin}${pathname}`;
     const [isCopyLinkAlert, setIsCopyLinkAlert] = useState<boolean>(false);
+    const [bookmarked, setBookmarked] = useState<boolean>(false);
     const [addBookmarkBlog] = useAddBookmarkBlogMutation();
+    const [removeBookmarkBlog] = useRemoveBookmarkBlogMutation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Count total likes
@@ -45,7 +48,11 @@ const ViewBlog = () => {
 
         // Check if the user has already commented
         setComments(blogData?.comment || []);
-    }, [blogData?.like, userId, blogData?.comment]);
+
+        if (blogData?.author?.bookmark?.includes(blogData?.blog?._id)) {
+            setBookmarked(true);
+        }
+    }, [blogData?.like, userId, blogData?.comment, blogData?.author?.bookmark, blogData?.blog?._id]);
 
     const handleLike = (userId: string | null, blogId: string, totalLikes: number): void => {
         setIsLiked(!isLiked);
@@ -53,7 +60,7 @@ const ViewBlog = () => {
         createLike({ blog: blogId, user: userId });
     }
 
-    const handleAddComment = (): void => { 
+    const handleAddComment = (): void => {
         if (!newComment) return;
 
         createComment({ blog: blogData?.blog?._id, user: userId, comment: newComment })
@@ -68,6 +75,28 @@ const ViewBlog = () => {
             setIsCopyLinkAlert(false);
         }, 2500);
     };
+
+    const handleAddBookmark = (blog: string, user: string | null): void => {
+        // Logic to add bookmark to the database
+        if (userId) {
+            addBookmarkBlog({ blog, user })
+                .unwrap()
+                .then(() => setBookmarked(true));
+        } else {
+            navigate("/login");
+        }
+    }
+
+    const handleRemoveBookmark = (blog: string, user: string | null): void => {
+        // Logic to remove bookmark from the database
+        if (userId) {
+            removeBookmarkBlog({ blog, user })
+                .unwrap()
+                .then(() => setBookmarked(false));
+        } else {
+            navigate("/login");
+        }
+    }
 
     return (
         <section className="bg-base-200 w-[50%] mx-auto p-10">
@@ -131,8 +160,12 @@ const ViewBlog = () => {
                         </div>
                     }
                 </span>
-                <img onClick={() => addBookmarkBlog({ blog: blogData?.blog?._id, user: userId })} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
-                {/* <img className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" /> */}
+                {
+                    bookmarked && userId ?
+                        <img onClick={() => handleRemoveBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" />
+                        :
+                        <img onClick={() => handleAddBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
+                }
             </div>
             <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 pt-6 pb-2">
                 <h2 className="text-lg font-semibold mb-4">Comments</h2>

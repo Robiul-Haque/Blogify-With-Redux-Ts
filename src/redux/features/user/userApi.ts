@@ -47,8 +47,15 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["blog"],
         }),
-
+        removeBookmarkBlog: build.mutation({
+            query: (payload) => ({
+                url: "/user/bookmark/remove/blog",
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["blog"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, } = userApi;
