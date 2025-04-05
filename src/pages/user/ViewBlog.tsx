@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router";
-import { useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
+import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
@@ -32,6 +32,7 @@ const ViewBlog = () => {
     const { pathname } = useLocation();
     const blogUrl = `${window.location.origin}${pathname}`;
     const [isCopyLinkAlert, setIsCopyLinkAlert] = useState<boolean>(false);
+    const [addBookmarkBlog] = useAddBookmarkBlogMutation();
 
     useEffect(() => {
         // Count total likes
@@ -52,7 +53,7 @@ const ViewBlog = () => {
         createLike({ blog: blogId, user: userId });
     }
 
-    const handleAddComment = () => {
+    const handleAddComment = (): void => { 
         if (!newComment) return;
 
         createComment({ blog: blogData?.blog?._id, user: userId, comment: newComment })
@@ -60,7 +61,7 @@ const ViewBlog = () => {
             .then(() => setNewComment(""));
     };
 
-    const handleCopyLink = () => {
+    const handleCopyLink = (): void => {
         navigator.clipboard.writeText(blogUrl);
         setIsCopyLinkAlert(true);
         setTimeout(() => {
@@ -130,7 +131,7 @@ const ViewBlog = () => {
                         </div>
                     }
                 </span>
-                <img onClick={() => console.log("Bookmark Blog ID: ", blogData?.blog?._id)} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
+                <img onClick={() => addBookmarkBlog({ blog: blogData?.blog?._id, user: userId })} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
                 {/* <img className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" /> */}
             </div>
             <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 pt-6 pb-2">
