@@ -31,6 +31,9 @@ const Login = () => {
     const [login] = useLoginMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    // const location = useLocation();
+
+    // const from = location.state?.from || "/";
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const tostId = toast.loading("Logging in...");
@@ -50,8 +53,13 @@ const Login = () => {
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
             if (res?.success) navigate("/admin/dashboard");
+            // navigate(from, { replace: true });
+            
+            // navigate("/login", {
+            //     state: { from: location.pathname },
+            //   });
             toast.success("Logged in...", { id: tostId });
-        } catch (err) {
+        } catch {
             toast.error("Something went wrong!", { id: tostId });
         }
     }
