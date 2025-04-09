@@ -1,13 +1,15 @@
 import { createBrowserRouter } from "react-router";
-import Admin from "../layout/Admin";
 import Login from "../pages/Login";
 import ProtectedRoute from '../route/protectedRoute';
-import Dashboard from "../pages/admin/Dashboard";
+import AdminLayout from "../layout/Admin";
+import AdminDashboard from "../pages/admin/Dashboard";
 import Blog from "../pages/admin/Blog";
 import User from "../pages/admin/User";
 import Profile from "../pages/admin/Profile";
 import Home from "../pages/user/Home";
 import ViewBlog from "../pages/user/ViewBlog";
+import UserLayout from "../layout/User";
+import UserDashboard from "../pages/user/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -24,21 +26,21 @@ const router = createBrowserRouter([
     },
     {
         path: "/user/dashboard",
-        element: <ProtectedRoute><User /></ProtectedRoute>,
+        element: <ProtectedRoute><UserLayout /></ProtectedRoute>,
         children: [
             {
                 path: "/user/dashboard",
-                element: <Dashboard />
+                element: <UserDashboard />
             }
         ]
     },
     {
         path: "/admin/dashboard",
-        element: <ProtectedRoute><Admin /></ProtectedRoute>,
+        element: <ProtectedRoute><AdminLayout /></ProtectedRoute>,
         children: [
             {
                 path: "/admin/dashboard",
-                element: <Dashboard />
+                element: <AdminDashboard />
             },
             {
                 path: "/admin/dashboard/blog",
