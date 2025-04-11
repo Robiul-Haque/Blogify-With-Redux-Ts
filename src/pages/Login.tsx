@@ -46,21 +46,25 @@ const Login = () => {
             const res = await login(userInfo).unwrap();
 
             // Decoded the new token, set the new access token & user info in the auth state, set the refresh token cookies, then navigate the admin dashboard.
-            const { id, name, email, role } = decodedToken(res?.data?.accessToken);
+            const { id, name, email, role, image } = decodedToken(res?.data?.accessToken);
             const token = res?.data?.accessToken;
-            dispatch(setUser({ id, name, email, role, token }));
+            dispatch(setUser({ id, name, email, image, role, token }));
 
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
-            if (res?.success) navigate("/admin/dashboard");
-            // navigate(from, { replace: true });
-            
-            // navigate("/login", {
-            //     state: { from: location.pathname },
-            //   });
-            toast.success("Logged in...", { id: tostId });
-        } catch {
-            toast.error("Something went wrong!", { id: tostId });
+            if (res?.success && role === "user") {
+                navigate("/");
+                // navigate(from, { replace: true });
+
+                // navigate("/login", {
+                //     state: { from: location.pathname },
+                //   });
+                toast.success("Logged in...", { id: tostId });
+            }
+        } catch (error) {
+            type ErrorResponse = { data?: { message?: string } };
+            const errorMessage = (error as ErrorResponse)?.data?.message || "An unexpected error occurred";
+            toast.error(errorMessage, { id: tostId });
         }
     }
 
