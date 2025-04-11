@@ -14,9 +14,9 @@ const User = () => {
                         <Link to="/user/dashboard" className="flex items-center gap-2">
                             {
                                 activeLink === "/user/dashboard" ?
-                                    <img className="size-5" src="https://img.icons8.com/material/24/dashboard-layout.png" alt="dashboard-layout" />
+                                    <img className="size-5" src="https://img.icons8.com/material/24/dashboard-layout.png" alt="dashboard-layout" title="1" />
                                     :
-                                    <img className="size-5" src="https://img.icons8.com/material-rounded/50/dashboard-layout.png" alt="dashboard-layout" />
+                                    <img className="size-5" src="https://img.icons8.com/material-rounded/50/dashboard-layout.png" alt="dashboard-layout" title="2" />
                             }
                             Dashboard
                         </Link>
@@ -40,7 +40,8 @@ const User = () => {
                                     :
                                     <img className="size-6" src="https://img.icons8.com/fluency-systems-regular/48/1A1A1A/system-administrator-male.png" alt="system-administrator-male" />
                             }
-                            Profile</Link>
+                            Profile
+                        </Link>
                     </span>
                     <span onClick={() => setActiveLink("/")}>
                         <Link to="/" className="flex items-center gap-2 my-6">

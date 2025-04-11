@@ -46,7 +46,8 @@ const Admin = () => {
                   :
                   <img className="size-5" src="https://img.icons8.com/material-rounded/50/dashboard-layout.png" alt="dashboard-layout" />
               }
-              Dashboard</Link>
+              Dashboard
+            </Link>
           </span>
           <span onClick={() => setActiveLink("/admin/dashboard/blog")}>
             <Link to="/admin/dashboard/blog" className="flex items-center gap-2 my-6">
@@ -56,7 +57,8 @@ const Admin = () => {
                   :
                   <img className="size-6" src="https://img.icons8.com/windows/32/google-blog-search.png" alt="google-blog-search" />
               }
-              Blog</Link>
+              Blog
+            </Link>
           </span>
           <span onClick={() => setActiveLink("/admin/dashboard/user")}>
             <Link to="/admin/dashboard/user" className="flex items-center gap-2 my-6">
@@ -66,7 +68,8 @@ const Admin = () => {
                   :
                   <img className="size-6" src="https://img.icons8.com/parakeet-line/48/group.png" alt="group" />
               }
-              User</Link>
+              User
+            </Link>
           </span>
           <span onClick={() => setActiveLink("/admin/dashboard/profile")}>
             <Link to="/admin/dashboard/profile" className="flex items-center gap-2 my-6">
@@ -76,7 +79,8 @@ const Admin = () => {
                   :
                   <img className="size-6" src="https://img.icons8.com/fluency-systems-regular/48/1A1A1A/system-administrator-male.png" alt="system-administrator-male" />
               }
-              Profile</Link>
+              Profile
+            </Link>
           </span>
           <span onClick={handleLogOut} className="flex items-center gap-2 cursor-pointer">
             <img className="size-5" src="https://img.icons8.com/ios-filled/50/logout-rounded.png" alt="logout-rounded" />
