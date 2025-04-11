@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery, useRemoveBookmarkBlogMutation } from "../../redux/features/user/userApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
@@ -35,6 +35,7 @@ const ViewBlog = () => {
     const [bookmarked, setBookmarked] = useState<boolean>(false);
     const [addBookmarkBlog] = useAddBookmarkBlogMutation();
     const [removeBookmarkBlog] = useRemoveBookmarkBlogMutation();
+    const { token } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -122,10 +123,16 @@ const ViewBlog = () => {
             <div className="flex justify-around items-center gap-4 border-y h-10 mb-10">
                 <span className="flex items-center gap-2">
                     {
-                        isLiked ?
-                            <img onClick={() => { deleteLike(blogData?.like[0]?._id); setTotalLikes(totalLikes - 1) }} className="size-5 cursor-pointer" title="Unlike" src="https://img.icons8.com/material/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                        token ? <>
+                            {
+                                isLiked ?
+                                    <img onClick={() => { deleteLike(blogData?.like[0]?._id); setTotalLikes(totalLikes - 1) }} className="size-5 cursor-pointer" title="Unlike" src="https://img.icons8.com/material/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                                    :
+                                    <img onClick={() => handleLike(userId, blogData?.blog?._id, totalLikes + 1)} className="size-5 cursor-pointer" title="Like" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                            }
+                        </>
                             :
-                            <img onClick={() => handleLike(userId, blogData?.blog?._id, totalLikes + 1)} className="size-5 cursor-pointer" title="Like" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" />
+                            <Link to="/login"><img className="size-5 cursor-pointer" title="Like" src="https://img.icons8.com/material-outlined/24/facebook-like--v1.png" alt="facebook-like--v1" /></Link>
                     }
                     {totalLikes}
                 </span>
@@ -161,10 +168,17 @@ const ViewBlog = () => {
                     }
                 </span>
                 {
-                    bookmarked && userId ?
-                        <img onClick={() => handleRemoveBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" />
+                    token ? <>
+
+                        {
+                            bookmarked && userId ?
+                                <img onClick={() => handleRemoveBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Remove Bookmark" src="https://img.icons8.com/ios-glyphs/30/bookmark-ribbon.png" alt="bookmark-ribbon" />
+                                :
+                                <img onClick={() => handleAddBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
+                        }
+                    </>
                         :
-                        <img onClick={() => handleAddBookmark(blogData?.blog?._id, userId)} className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
+                        <Link to="/login"><img className="size-5 cursor-pointer" title="Bookmark" src="https://img.icons8.com/windows/32/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" /></Link>
                 }
             </div>
             <div className="max-w-2xl mx-auto px-4 sm:px-4 lg:px-6 pt-6 pb-2">
@@ -172,7 +186,12 @@ const ViewBlog = () => {
                 <div className="flex items-start space-x-2 mb-10">
                     <div className="flex-1">
                         <textarea className="w-full p-2 border rounded-lg focus:ring-2 focus:border-black-500 focus:outline-none resize-none" rows={3} placeholder="Write a comment..." value={newComment} onChange={(e) => setNewComment(e.target.value)} />
-                        <button className="mt-2 btn btn-neutral btn-sm" onClick={handleAddComment}>Post Comment</button>
+                        {
+                            token ?
+                                <button className="mt-2 btn btn-neutral btn-sm" onClick={handleAddComment}>Post Comment</button>
+                                :
+                                <Link to="/login"><button className="mt-2 btn btn-neutral btn-sm" onClick={handleAddComment}>Post Comment</button></Link>
+                        }
                     </div>
                 </div>
                 <div className="space-y-4">
