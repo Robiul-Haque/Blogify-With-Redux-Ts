@@ -60,6 +60,9 @@ const Login = () => {
                 //     state: { from: location.pathname },
                 //   });
                 toast.success("Logged in...", { id: tostId });
+            } else if (res?.success && role === "admin") {
+                navigate("/admin/dashboard");
+                toast.success("Logged in...", { id: tostId });
             }
         } catch (error) {
             type ErrorResponse = { data?: { message?: string } };
