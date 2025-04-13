@@ -6,7 +6,7 @@ import { useState } from "react";
 import decodedToken from "../utils/decodedToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
 
@@ -31,9 +31,8 @@ const Login = () => {
     const [login] = useLoginMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    // const location = useLocation();
-
-    // const from = location.state?.from || "/";
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const tostId = toast.loading("Logging in...");
@@ -53,15 +52,11 @@ const Login = () => {
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
             if (res?.success && role === "user") {
-                navigate("/");
-                // navigate(from, { replace: true });
+                navigate(from);
 
-                // navigate("/login", {
-                //     state: { from: location.pathname },
-                //   });
                 toast.success("Logged in...", { id: tostId });
             } else if (res?.success && role === "admin") {
-                navigate("/admin/dashboard");
+                navigate("/admin/dashboard/profile");
                 toast.success("Logged in...", { id: tostId });
             }
         } catch (error) {

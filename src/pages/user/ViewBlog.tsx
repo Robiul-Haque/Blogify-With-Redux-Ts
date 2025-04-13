@@ -22,7 +22,7 @@ const ViewBlog = () => {
     const { data: blogData } = data || {};
     const [totalLikes, setTotalLikes] = useState<number>(0);
     const [isLiked, setIsLiked] = useState<boolean>(false);
-    const { id: userId } = useAppSelector((state: RootState) => state.auth);
+    const { id: userId, token } = useAppSelector((state: RootState) => state.auth);
     const [createLike] = useCreateLikeMutation();
     const [deleteLike] = useDeleteLikeMutation();
     const [comments, setComments] = useState<TComment[]>([]);
@@ -35,7 +35,6 @@ const ViewBlog = () => {
     const [bookmarked, setBookmarked] = useState<boolean>(false);
     const [addBookmarkBlog] = useAddBookmarkBlogMutation();
     const [removeBookmarkBlog] = useRemoveBookmarkBlogMutation();
-    const { token } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -56,9 +55,13 @@ const ViewBlog = () => {
     }, [blogData?.like, userId, blogData?.comment, blogData?.author?.bookmark, blogData?.blog?._id]);
 
     const handleLike = (userId: string | null, blogId: string, totalLikes: number): void => {
-        setIsLiked(!isLiked);
-        setTotalLikes(totalLikes);
-        createLike({ blog: blogId, user: userId });
+        if (userId) {
+            setIsLiked(!isLiked);
+            setTotalLikes(totalLikes);
+            createLike({ blog: blogId, user: userId });
+        }
+
+        navigate("/login");
     }
 
     const handleAddComment = (): void => {

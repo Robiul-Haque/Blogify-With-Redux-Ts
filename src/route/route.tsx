@@ -9,7 +9,6 @@ import Profile from "../pages/admin/Profile";
 import Home from "../pages/user/Home";
 import ViewBlog from "../pages/user/ViewBlog";
 import UserLayout from "../layout/User";
-import UserDashboard from "../pages/user/Dashboard";
 
 const router = createBrowserRouter([
     {
@@ -25,12 +24,12 @@ const router = createBrowserRouter([
         element: <Login />
     },
     {
-        path: "/user/dashboard",
+        path: "/user/dashboard/profile",
         element: <ProtectedRoute><UserLayout /></ProtectedRoute>,
         children: [
             {
-                path: "/user/dashboard",
-                element: <UserDashboard />
+                path: "/user/dashboard/profile",
+                element: <p>User Profile</p>
             }
         ]
     },

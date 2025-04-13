@@ -25,7 +25,7 @@ const Navbar = () => {
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2.5 shadow">
                             <li>
-                                <Link to="/user/dashboard" className="justify-between font-semibold mb-1.5">Dashboard</Link>
+                                <Link to="/user/dashboard/profile" className="justify-between font-semibold mb-1.5">Dashboard</Link>
                             </li>
                             <li>
                                 <button type="button" onClick={handleLogout} className="font-semibold">Logout</button>
