@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const location = useLocation();
 
     // Token is not valid then go to the login page.
-    if (!token) return <Navigate to="/login" state={{ from: location.pathname }} replace />
+    if (!token) return <Navigate to="/login" state={{ from: location.pathname }} />
 
     return children;
 }

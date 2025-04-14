@@ -32,7 +32,6 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from || "/";
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const tostId = toast.loading("Logging in...");
@@ -52,7 +51,7 @@ const Login = () => {
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
             if (res?.success && role === "user") {
-                navigate(from);
+                navigate(location.state?.from || "/", { replace: true });
 
                 toast.success("Logged in...", { id: tostId });
             } else if (res?.success && role === "admin") {

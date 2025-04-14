@@ -61,7 +61,7 @@ const ViewBlog = () => {
             createLike({ blog: blogId, user: userId });
         }
 
-        navigate("/login");
+        navigate("/login", { state: { from: pathname } });
     }
 
     const handleAddComment = (): void => {
