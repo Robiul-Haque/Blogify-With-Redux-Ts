@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import Login from "../pages/Login";
 import ProtectedRoute from '../route/protectedRoute';
 import AdminLayout from "../layout/Admin";
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/blog/:id",
-        element: <ViewBlog />
+        element: <ProtectedRoute><ViewBlog /></ProtectedRoute>
     },
     {
         path: "/login",

@@ -6,7 +6,7 @@ import { useState } from "react";
 import decodedToken from "../utils/decodedToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
 
@@ -32,6 +32,7 @@ const Login = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
         const tostId = toast.loading("Logging in...");
@@ -51,7 +52,7 @@ const Login = () => {
             Cookies.set("refreshToken", res?.data?.refreshToken, { expires: parseInt(res?.data?.refreshTokenExpireIn) });
 
             if (res?.success && role === "user") {
-                navigate(location.state?.from || "/", { replace: true });
+                navigate(from);
 
                 toast.success("Logged in...", { id: tostId });
             } else if (res?.success && role === "admin") {

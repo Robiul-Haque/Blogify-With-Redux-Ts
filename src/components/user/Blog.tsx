@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGetAllBlogQuery } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 const Blog = () => {
     const { searchName } = useAppSelector((state: RootState) => state.user);
