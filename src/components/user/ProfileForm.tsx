@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { useUpdateProfileInfoMutation, useViewProfileInfoQuery } from "../../redux/features/admin/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
+import { useViewUserProfileInfoQuery } from "../../redux/features/user/userApi";
 
-const adminInfoUpdateSchema = z.object({
+const userInfoUpdateSchema = z.object({
     name: z.string().min(1),
     email: z.string(),
     image: z
@@ -16,18 +17,19 @@ const adminInfoUpdateSchema = z.object({
         }),
 });
 
-type Inputs = z.infer<typeof adminInfoUpdateSchema>;
+type Inputs = z.infer<typeof userInfoUpdateSchema>;
 
 const ProfileForm = () => {
     const { register, handleSubmit, setValue, reset, formState: { errors }, } = useForm<Inputs>(
         {
-            resolver: zodResolver(adminInfoUpdateSchema),
+            resolver: zodResolver(userInfoUpdateSchema),
         }
     );
-    const { data, isLoading } = useViewProfileInfoQuery(undefined);
+    const { id } = useAppSelector((state: RootState) => state.auth);
+    const { data, isLoading } = useViewUserProfileInfoQuery(id || "");
     const { data: profileData } = data || {};
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [updateProfile, { isLoading: updateLoading }] = useUpdateProfileInfoMutation(undefined);
+    // const [updateProfile, { isLoading: updateLoading }] = useUpdateProfileInfoMutation(undefined);
 
     useEffect(() => {
         reset({
@@ -55,16 +57,16 @@ const ProfileForm = () => {
         formData.append("data", JSON.stringify(updateProfileData));
         formData.append("image", data.image);
 
-        updateProfile(formData)
-            .unwrap()
-            .then(() => {
-                toast.success("Profile updated successfully.");
-                setPreviewImage(null);
-            })
-            .catch((err) => {
-                toast.error("Failed to update profile, Please try again.");
-                console.error("Error:", err);
-            })
+        // updateProfile(formData)
+        //     .unwrap()
+        //     .then(() => {
+        //         toast.success("Profile updated successfully.");
+        //         setPreviewImage(null);
+        //     })
+        //     .catch((err) => {
+        //         toast.error("Failed to update profile, Please try again.");
+        //         console.error("Error:", err);
+        //     })
     }
 
     return (
@@ -91,13 +93,13 @@ const ProfileForm = () => {
                             <input type="email" className="input focus:outline-none focus:border-gray-300 bg-base-200" title="Can,t change this field value" readOnly {...register("email")} />
                             <p className="badge badge-soft badge-neutral badge-xs font-semibold absolute right-10 top-5 capitalize">{profileData?.role}</p>
                         </div>
-                        {
+                        {/* {
                             updateLoading ?
                                 <button type="button" title="Updating..." className="btn btn-neutral opacity-90 w-[80%] mt-4"><span className="loading loading-bars loading-lg"></span></button>
                                 :
                                 <button type="submit" className="btn btn-neutral w-[80%] mt-4">Update</button>
 
-                        }
+                        } */}
                     </form>
             }
         </>

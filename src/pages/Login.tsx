@@ -53,10 +53,9 @@ const Login = () => {
 
             if (res?.success && role === "user") {
                 navigate(from);
-
                 toast.success("Logged in...", { id: tostId });
             } else if (res?.success && role === "admin") {
-                navigate("/admin/dashboard/profile");
+                navigate("/admin/dashboard");
                 toast.success("Logged in...", { id: tostId });
             }
         } catch (error) {

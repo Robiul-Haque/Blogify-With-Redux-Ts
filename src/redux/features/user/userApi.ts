@@ -55,7 +55,14 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["blog"],
         }),
+        viewUserProfileInfo: build.query({
+            query: (id: string) => ({
+                url: `/user/get-user/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["user"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, useViewUserProfileInfoQuery, } = userApi;

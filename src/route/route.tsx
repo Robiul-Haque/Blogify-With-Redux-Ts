@@ -5,10 +5,11 @@ import AdminLayout from "../layout/Admin";
 import AdminDashboard from "../pages/admin/Dashboard";
 import Blog from "../pages/admin/Blog";
 import User from "../pages/admin/User";
-import Profile from "../pages/admin/Profile";
+import AdminProfile from "../pages/admin/Profile";
 import Home from "../pages/user/Home";
 import ViewBlog from "../pages/user/ViewBlog";
 import UserLayout from "../layout/User";
+import UserProfile from "../pages/user/Profile";
 
 const router = createBrowserRouter([
     {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/user/dashboard/profile",
-                element: <p>User Profile</p>
+                element: <UserProfile />
             }
         ]
     },
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/admin/dashboard/profile",
-                element: <Profile />
+                element: <AdminProfile />
             },
         ]
     }
