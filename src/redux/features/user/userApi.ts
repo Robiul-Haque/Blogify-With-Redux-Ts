@@ -62,7 +62,15 @@ const userApi = baseApi.injectEndpoints({
             }),
             providesTags: ["user"],
         }),
+        updateUserProfileInfo: build.mutation({
+            query: (payload) => ({
+                url: "/user/update-user-info",
+                method: "PATCH",
+                body: payload,
+            }),
+            invalidatesTags: ["user"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, useViewUserProfileInfoQuery, } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, } = userApi;
