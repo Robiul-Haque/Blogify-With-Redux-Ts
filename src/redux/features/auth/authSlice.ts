@@ -26,12 +26,12 @@ export const authSlice = createSlice({
         setUser: (state, action) => {
             const { id, name, email, image, role, token } = action.payload;
 
-            state.id = id;
-            state.name = name;
-            state.email = email;
-            state.image = image;
-            state.role = role;
-            state.token = token;
+            state.id = id ?? state.id;
+            state.name = name ?? state.name;
+            state.email = email ?? state.email;
+            state.image = image ?? state.image;
+            state.role = role ?? state.role;
+            state.token = token ?? state.token;
         },
         logout: (state) => {
             state.id = null;

@@ -68,7 +68,6 @@ const ProfileForm = () => {
                 dispatch(setUser({ name: name, image: image?.url }))
                 toast.success("Profile updated successfully.");
                 setPreviewImage(null);
-                console.log(res);
             })
             .catch((err) => {
                 toast.error("Failed to update profile, Please try again.");
