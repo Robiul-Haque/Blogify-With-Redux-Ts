@@ -35,7 +35,7 @@ const User = () => {
                     <span onClick={() => setActiveLink("/user/dashboard/bookmarked")}>
                         <Link to="/user/dashboard/bookmarked" className="flex items-center gap-2 my-6">
                             {
-                                activeLink === "/admin/dashboard/bookmarked" ?
+                                activeLink === "/user/dashboard/bookmarked" ?
                                     <img className="size-6" src="https://img.icons8.com/material-rounded/24/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
                                     :
                                     <img className="size-6" src="https://img.icons8.com/material-outlined/24/bookmark-ribbon--v1.png" alt="bookmark-ribbon--v1" />
