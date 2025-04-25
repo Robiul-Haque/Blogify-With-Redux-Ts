@@ -70,7 +70,14 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["user"],
         }),
+        viewAllBookmarkBlog: build.query({
+            query: (id: string) => ({
+                url: `/user/get-user-bookmark-blog/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["user"],
+        }),
     })
 });
 
-export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, } = userApi;
+export const { useGetAllBlogQuery, useGetBlogQuery, useCreateLikeMutation, useDeleteLikeMutation, useCreateCommentMutation, useAddBookmarkBlogMutation, useRemoveBookmarkBlogMutation, useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, useViewAllBookmarkBlogQuery, } = userApi;
