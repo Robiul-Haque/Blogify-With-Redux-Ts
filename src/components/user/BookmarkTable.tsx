@@ -1,8 +1,8 @@
 interface IBookmark {
-    id: string;
-    image: string;
+    _id: string;
+    image: { url: string; };
     title: string;
-    author: string;
+    author: { name: string };
 }
 
 const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
@@ -10,35 +10,41 @@ const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
         <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
                 <tr>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">#</th>
                     <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Image</th>
                     <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600">Title</th>
                     <th className="px-6 py-3 text-center text-sm font-semibold text-gray-600">Author</th>
-                    <th className="px-6 py-3 text-right text-sm font-semibold text-gray-600">Action</th>
+                    <th className="px-6 py-3 text-right text-sm font-semibold text-gray-600 pr-10">Action</th>
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
                 {
                     bookmarks.length > 0 ?
-                        bookmarks?.map((bookmark) => (
-                            <tr key={bookmark.id} className="hover:bg-gray-50 transition">
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="w-10 h-10">
+                        bookmarks?.map((bookmark, index) => (
+                            <tr key={bookmark?._id} className="hover:bg-gray-50 transition">
+                                <td className="ps-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
+                                    {index + 1}
+                                </td>
+                                <td className="px-5 py-4 whitespace-nowrap">
+                                    <div className="size-14">
                                         <img
-                                            src={bookmark.image}
-                                            alt={bookmark.title}
-                                            className="w-10 h-10 rounded-full object-cover"
+                                            src={bookmark?.image?.url}
+                                            alt={bookmark?.title}
+                                            className="size-14 rounded-full object-cover"
                                         />
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {bookmark.title}
+                                    {bookmark?.title}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                    {bookmark.author}
+                                    {bookmark?.author?.name}
                                 </td>
-                                <td className="flex justify-end items-center gap-6 px-6 py-4 whitespace-nowrap text-right text-sm">
-                                    <button className="text-green-500 hover:text-green-700 font-medium">Read</button>
-                                    <button className="text-red-500 hover:text-red-700 font-medium">Remove</button>
+                                <td className="flex justify-end items-center gap-6 px-6 pt-8 whitespace-nowrap text-right text-sm">
+                                    <img onClick={() => console.log("View Blog ID: ", bookmark?._id)
+                                    } title="Read" className="cursor-pointer size-6" src="https://img.icons8.com/material-rounded/24/read.png" alt="read" />
+                                    <img onClick={() => console.log("Delete Blog ID: ", bookmark?._id)
+                                    } title="Remove" className="cursor-pointer size-6" src="https://img.icons8.com/ios-glyphs/30/delete-forever.png" alt="delete-forever" />
                                 </td>
                             </tr>
                         ))
