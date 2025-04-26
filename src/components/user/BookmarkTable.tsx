@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { useDeleteBookmarkBlogMutation } from "../../redux/features/user/userApi";
+
 interface IBookmark {
     _id: string;
     image: { url: string; };
@@ -6,6 +9,13 @@ interface IBookmark {
 }
 
 const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
+    const [deleteBookmarkBlog, { isLoading }] = useDeleteBookmarkBlogMutation();
+
+    const deleteBookmark = (id: string): void => {
+        console.log(id);
+        // deleteBookmarkBlog()
+    }
+
     return (
         <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-100">
@@ -41,10 +51,8 @@ const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
                                     {bookmark?.author?.name}
                                 </td>
                                 <td className="flex justify-end items-center gap-6 px-6 pt-8 whitespace-nowrap text-right text-sm">
-                                    <img onClick={() => console.log("View Blog ID: ", bookmark?._id)
-                                    } title="Read" className="cursor-pointer size-6" src="https://img.icons8.com/material-rounded/24/read.png" alt="read" />
-                                    <img onClick={() => console.log("Delete Blog ID: ", bookmark?._id)
-                                    } title="Remove" className="cursor-pointer size-6" src="https://img.icons8.com/ios-glyphs/30/delete-forever.png" alt="delete-forever" />
+                                    <Link to={`/blog/${bookmark?._id}`}><img title="Read" className="cursor-pointer size-6" src="https://img.icons8.com/material-rounded/24/read.png" alt="read" /></Link>
+                                    <img onClick={() => deleteBookmark(bookmark?._id)} title="Remove" className="cursor-pointer size-6" src="https://img.icons8.com/ios-glyphs/30/delete-forever.png" alt="delete-forever" />
                                 </td>
                             </tr>
                         ))
