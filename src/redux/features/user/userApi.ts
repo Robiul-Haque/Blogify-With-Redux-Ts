@@ -78,9 +78,9 @@ const userApi = baseApi.injectEndpoints({
             providesTags: ["user"],
         }),
         deleteBookmarkBlog: build.mutation({
-            query: (id: string) => ({
-                url: `/user/get-user-bookmark-blog/${id}`,
-                method: "GET",
+            query: ({ userId, blogId }) => ({
+                url: `/user/delete-bookmark-blog?userId=${userId}&blogId=${blogId}`,
+                method: "DELETE",
             }),
             invalidatesTags: ["user"],
         }),

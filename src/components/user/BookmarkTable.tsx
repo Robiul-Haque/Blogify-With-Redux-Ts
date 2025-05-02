@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useDeleteBookmarkBlogMutation } from "../../redux/features/user/userApi";
+import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "../../redux/store";
 
 interface IBookmark {
     _id: string;
@@ -9,11 +11,16 @@ interface IBookmark {
 }
 
 const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
-    const [deleteBookmarkBlog, { isLoading }] = useDeleteBookmarkBlogMutation();
+    const [deleteBookmarkBlog] = useDeleteBookmarkBlogMutation();
+    const { id: userId } = useAppSelector((state: RootState) => state.auth);
 
     const deleteBookmark = (id: string): void => {
-        console.log(id);
-        // deleteBookmarkBlog()
+        deleteBookmarkBlog({ userId, blogId: id })
+            .unwrap()
+            .then()
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
@@ -29,7 +36,7 @@ const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
                 {
-                    bookmarks.length > 0 ?
+                    bookmarks?.length > 0 ?
                         bookmarks?.map((bookmark, index) => (
                             <tr key={bookmark?._id} className="hover:bg-gray-50 transition">
                                 <td className="ps-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
@@ -57,7 +64,9 @@ const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
                             </tr>
                         ))
                         :
-                        <tr>No Bookmark Blog</tr>
+                        <tr>
+                            <td colSpan={5} className="py-4 font-semibold text-lg">No Bookmark Blog</td>
+                        </tr>
                 }
             </tbody>
         </table>
