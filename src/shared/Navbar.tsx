@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/features/auth/authSlice";
 import Cookies from "js-cookie";
@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 const Navbar = () => {
     const { name, image, token } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
+    const { pathname } = useLocation();
 
     const handleLogout = () => {
         dispatch(logout());
@@ -13,7 +14,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="flex justify-between items-center py-4 px-50">
+        <nav className={`${pathname === "/user/dashboard/profile" || pathname === "/user/dashboard/bookmarked" ? "pl-20 pr-50" : "px-50"} flex justify-between items-center bg-slate-100 py-4`}>
             <h1 className="text-2xl font-bold">Blogify</h1>
             {
                 token ? <>
