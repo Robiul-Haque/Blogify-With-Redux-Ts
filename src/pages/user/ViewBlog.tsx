@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import Navbar from "../../shared/Navbar";
-import ViewBlogSkeleton from "../../components/skeleton/user/ViewBlogSkeleton";
+import ViewBlogSkeleton from "../../skeleton/user/ViewBlogSkeleton";
 
 type TComment = {
     comment: string;
