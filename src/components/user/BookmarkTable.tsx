@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useDeleteBookmarkBlogMutation } from "../../redux/features/blog/blogApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
+import Swal from "sweetalert2";
 
 interface IBookmark {
     _id: string;
@@ -15,13 +16,29 @@ const BookmarkTable = ({ bookmarks }: { bookmarks: IBookmark[] }) => {
     const { id: userId } = useAppSelector((state: RootState) => state.auth);
 
     const deleteBookmark = (id: string): void => {
-        deleteBookmarkBlog({ userId, blogId: id })
-            .unwrap()
-            .then()
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "",
+            confirmButtonText: "Yes, Remove Bookmark"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteBookmarkBlog({ userId, blogId: id })
+                    .unwrap()
+                    .then(() => { })
+                    .catch((error) => {
+                        console.error("Failed to delete bookmark", error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Something went wrong!",
+                            icon: "error"
+                        });
+                    });
+            }
+        });
+    };
 
     return (
         <table className="min-w-full divide-y divide-gray-200">

@@ -37,7 +37,7 @@ const ViewBlog = () => {
     const [bookmarked, setBookmarked] = useState<boolean>(false);
     const [addBookmarkBlog] = useAddBookmarkBlogMutation();
     const [removeBookmarkBlog] = useRemoveBookmarkBlogMutation();
-    
+
     useEffect(() => {
         // Count total likes
         const activeLikes = blogData?.like.filter(({ isDeleted }: { isDeleted: boolean }) => !isDeleted).length;
@@ -82,11 +82,13 @@ const ViewBlog = () => {
             .then(() => setBookmarked(true));
     }
 
-    const handleRemoveBookmark = (blog: string, user: string | null): void => {
+    const handleRemoveBookmark = (blogId: string, userId: string | null): void => {
         // Logic to remove bookmark from the database
-        removeBookmarkBlog({ blog, user })
-            .unwrap()
-            .then(() => setBookmarked(false));
+            removeBookmarkBlog({ blogId, userId })
+                .unwrap()
+                .then(() => {
+                    setBookmarked(false);
+                })
     }
 
     return (

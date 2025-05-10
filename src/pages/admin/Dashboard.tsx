@@ -4,6 +4,16 @@ import moment from "moment";
 import ViewBlogModal from "../../components/admin/ViewBlogModal";
 import { useState } from "react";
 
+type TBlog = {
+    _id: string;
+    image: { url: string };
+    title: string; category: string;
+    likes: number;
+    author: { name: string };
+    isPublished: boolean;
+    createdAt: string
+}
+
 const Dashboard = () => {
     const { data, isLoading, isError } = useDashboardStaticsQuery(undefined);
     const [blogId, setBlogId] = useState<string>("");
@@ -63,7 +73,7 @@ const Dashboard = () => {
                             </thead>
                             <tbody>
                                 {
-                                    data?.data?.topBlogs.map((blog: any) => (
+                                    data?.data?.topBlogs.map((blog: TBlog) => (
                                         <tr key={blog?._id}>
                                             <td><img className="w-12 h-12 rounded-full border mx-auto" src={blog?.image?.url} alt={blog?.title} /></td>
                                             <td>{blog?.title}</td>

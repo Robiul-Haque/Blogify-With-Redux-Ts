@@ -37,7 +37,7 @@ const CreateBlogModal = () => {
         }
     };
 
-    const onSubmit = (data: any): void => {
+    const onSubmit = (data: Inputs): void => {
         const formData = new FormData();
 
         const createNewBlogData = {
