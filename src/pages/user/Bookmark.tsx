@@ -1,5 +1,5 @@
 import BookmarkTable from "../../components/user/BookmarkTable";
-import { useViewAllBookmarkBlogQuery } from "../../redux/features/user/userApi";
+import { useViewAllBookmarkBlogQuery } from "../../redux/features/blog/blogApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 

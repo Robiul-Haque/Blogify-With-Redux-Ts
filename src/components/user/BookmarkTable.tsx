@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useDeleteBookmarkBlogMutation } from "../../redux/features/user/userApi";
+import { useDeleteBookmarkBlogMutation } from "../../redux/features/blog/blogApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 

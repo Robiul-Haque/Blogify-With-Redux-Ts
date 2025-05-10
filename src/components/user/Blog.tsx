@@ -1,8 +1,17 @@
 import { useState } from "react";
-import { useGetAllBlogQuery } from "../../redux/features/user/userApi";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { Link } from "react-router-dom";
+import { useGetAllBlogQuery } from "../../redux/features/blog/blogApi";
+
+type TBlog = {
+    _id: string;
+    image: { url: string };
+    title: string;
+    content: string;
+    likes: number;
+    comments: { length: number }
+}
 
 const Blog = () => {
     const { searchName } = useAppSelector((state: RootState) => state.user);
@@ -15,15 +24,10 @@ const Blog = () => {
             {
                 isLoading ? <div className="skeleton h-50 mx-auto"></div>
                     :
-                    allBlog?.map((item: any) => {
+                    allBlog?.map((item: TBlog) => {
                         return (
                             <div key={item?._id} className="card bg-base-100 w-82 h-[400px] shadow-sm">
-                                <figure>
-                                    <img
-                                        src={item?.image?.url}
-                                        alt={item?.title}
-                                        className="object-cover w-full" />
-                                </figure>
+                                <figure><img src={item?.image?.url} alt={item?.title} className="object-cover w-full" /></figure>
                                 <div className="card-body p-6">
                                     <h2 className="card-title">{item?.title}</h2>
                                     <p>{item?.content}</p>

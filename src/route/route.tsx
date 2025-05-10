@@ -33,16 +33,10 @@ const router = createBrowserRouter([
                 path: "/user/dashboard/profile",
                 element: <UserProfile />
             },
-        ]
-    },
-    {
-        path: "/user/dashboard",
-        element: <ProtectedRoute><UserLayout /></ProtectedRoute>,
-        children: [
             {
                 path: "/user/dashboard/bookmarked",
                 element: <Bookmark />
-            },
+            }
         ]
     },
     {

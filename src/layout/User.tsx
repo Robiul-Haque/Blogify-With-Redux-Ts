@@ -5,25 +5,14 @@ import Navbar from "../shared/Navbar";
 const User = () => {
     const { pathname } = useLocation();
     const [activeLink, setActiveLink] = useState<string>(pathname);
-    
+
     return (
-        <section>
+        <section className="w-screen h-screen overflow-hidden">
             <Navbar />
             <div className="flex justify-center">
-                <div className="bg-slate-100 w-[14%] h-screen px-4 py-5">
+                <div className="bg-slate-100 w-[14%] px-4 py-5">
                     <h1 className="dark:text-black text-xl inter font-[600] mt-2 ml-1">User Dashboard</h1>
                     <ul className="list-none roboto font-[500] text-gray-700 mt-8 ml-1">
-                        {/* <span onClick={() => setActiveLink("/user/dashboard")}>
-                        <Link to="/user/dashboard" className="flex items-center gap-2">
-                            {
-                                activeLink === "/user/dashboard" ?
-                                    <img className="size-5" src="https://img.icons8.com/material/24/dashboard-layout.png" alt="dashboard-layout" title="1" />
-                                    :
-                                    <img className="size-5" src="https://img.icons8.com/material-rounded/50/dashboard-layout.png" alt="dashboard-layout" title="2" />
-                            }
-                            Dashboard
-                        </Link>
-                    </span> */}
                         <span onClick={() => setActiveLink("/user/dashboard/profile")}>
                             <Link to="/user/dashboard/profile" className="flex items-center gap-2 my-6">
                                 {
@@ -59,7 +48,7 @@ const User = () => {
                         </span>
                     </ul>
                 </div>
-                <div className="w-[86%] h-screen overflow-y-auto text-center p-3">
+                <div className="w-[86%] h-screen text-center mt-20 p-3">
                     <Outlet />
                 </div>
             </div>

@@ -31,7 +31,6 @@ const ProfileForm = () => {
     const { data, isLoading } = useViewUserProfileInfoQuery(id || "");
     const { data: profileData } = data || {};
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    // const [updateProfile, { isLoading: updateLoading }] = useUpdateProfileInfoMutation(undefined);
     const [updateProfile, { isLoading: updateLoading }] = useUpdateUserProfileInfoMutation();
     const dispatch = useAppDispatch();
 

@@ -1,10 +1,11 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery, useRemoveBookmarkBlogMutation } from "../../redux/features/user/userApi";
+import { useAddBookmarkBlogMutation, useCreateCommentMutation, useCreateLikeMutation, useDeleteLikeMutation, useGetBlogQuery, useRemoveBookmarkBlogMutation } from "../../redux/features/blog/blogApi";
 import moment from "moment";
 import { useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
 import Navbar from "../../shared/Navbar";
+import ViewBlogSkeleton from "../../components/skeleton/user/ViewBlogSkeleton";
 
 type TComment = {
     comment: string;
@@ -19,11 +20,11 @@ type TComment = {
 
 const ViewBlog = () => {
     const { id } = useParams<{ id: string }>();
-    const { data } = useGetBlogQuery(id ? { id } : { id: "" });
+    const { id: userId } = useAppSelector((state: RootState) => state.auth);
+    const { data, isLoading } = useGetBlogQuery({ blogId: id || "", userId: userId || "" });
     const { data: blogData } = data || {};
     const [totalLikes, setTotalLikes] = useState<number>(0);
     const [isLiked, setIsLiked] = useState<boolean>(false);
-    const { id: userId } = useAppSelector((state: RootState) => state.auth);
     const [createLike] = useCreateLikeMutation();
     const [deleteLike] = useDeleteLikeMutation();
     const [comments, setComments] = useState<TComment[]>([]);
@@ -36,7 +37,7 @@ const ViewBlog = () => {
     const [bookmarked, setBookmarked] = useState<boolean>(false);
     const [addBookmarkBlog] = useAddBookmarkBlogMutation();
     const [removeBookmarkBlog] = useRemoveBookmarkBlogMutation();
-
+    
     useEffect(() => {
         // Count total likes
         const activeLikes = blogData?.like.filter(({ isDeleted }: { isDeleted: boolean }) => !isDeleted).length;
@@ -49,10 +50,10 @@ const ViewBlog = () => {
         // Check if the user has already commented
         setComments(blogData?.comment || []);
 
-        if (blogData?.author?.bookmark?.includes(blogData?.blog?._id)) {
-            setBookmarked(true);
-        }
-    }, [blogData?.like, userId, blogData?.comment, blogData?.author?.bookmark, blogData?.blog?._id]);
+        if (blogData?.user?.bookmark?.includes(blogData?.blog?._id)) setBookmarked(true);
+    }, [blogData?.like, userId, blogData?.comment, blogData?.user?.bookmark, blogData?.blog?._id]);
+
+    if (isLoading) return <ViewBlogSkeleton />
 
     const handleLike = (userId: string | null, blogId: string, totalLikes: number): void => {
         setIsLiked(!isLiked);
@@ -90,8 +91,8 @@ const ViewBlog = () => {
 
     return (
         <>
-            <Navbar/>
-                <section className="bg-base-200 w-[50%] mx-auto p-10">
+            <Navbar />
+            <section className="bg-base-200 w-[50%] mx-auto p-10">
                 <span className="btn btn-sm btn-outline cursor-pointer mb-10" onClick={() => window.history.back()}>
                     <img className="size-5" src="https://img.icons8.com/material-rounded/24/back--v1.png" alt="back--v1" />
                     <p>Back</p>
@@ -123,7 +124,7 @@ const ViewBlog = () => {
                     </span>
                     <span className="flex items-center gap-2">
                         <img className="size-5 cursor-pointer" title="Comment" src="https://img.icons8.com/windows/32/speech-bubble--v1.png" alt="speech-bubble--v1" />
-                        {blogData?.blog?.comments.length}
+                        {blogData?.blog?.comments?.length}
                     </span>
                     <span className="relative">
                         <img onClick={() => setIsOpenShareMenu(!isOpenShareMenu)} className="size-5 cursor-pointer" title="Share" src="https://img.icons8.com/fluency-systems-filled/50/share-3.png" alt="share-3" />
