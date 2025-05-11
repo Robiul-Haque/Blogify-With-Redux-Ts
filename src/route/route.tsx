@@ -11,6 +11,7 @@ import ViewBlog from "../pages/user/ViewBlog";
 import UserLayout from "../layout/User";
 import UserProfile from "../pages/user/Profile";
 import Bookmark from "../pages/user/Bookmark";
+import SignUp from "../pages/SignUp";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/sign-up",
+        element: <SignUp />
     },
     {
         path: "/user/dashboard",
