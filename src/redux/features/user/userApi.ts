@@ -2,6 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
+        signup: build.mutation({
+            query: (payload) => ({
+                url: "/user/sign-up",
+                method: "POST",
+                body: payload,
+            }),
+            invalidatesTags: ["user"],
+        }),
         viewUserProfileInfo: build.query({
             query: (id: string) => ({
                 url: `/user/get-user/${id}`,
@@ -20,4 +28,4 @@ const userApi = baseApi.injectEndpoints({
     })
 });
 
-export const { useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, } = userApi;
+export const { useSignupMutation , useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, } = userApi;

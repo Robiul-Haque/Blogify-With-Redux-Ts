@@ -9,6 +9,7 @@ import { setUser } from "../redux/features/auth/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email format"),
@@ -88,6 +89,7 @@ const Login = () => {
                                 <button className="btn btn-neutral mt-4">Login</button>
                             </fieldset>
                         </form>
+                        <p className="text-md text-center mt-6">Don’t have an account?{" "} <Link to="/sign-up" className="font-bold relative inline-block mb-4 after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-black after:w-0 after:transition-all after:duration-300 hover:after:w-full">Sign up</Link> </p>
                     </div>
                 </div>
             </div>
