@@ -45,9 +45,6 @@ const Signup = () => {
     const toastId = toast.loading("Signing up...");
 
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("email", data.email);
-    formData.append("password", data.password);
 
     const newUserData = {
       name: data.name,
