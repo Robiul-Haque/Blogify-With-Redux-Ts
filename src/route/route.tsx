@@ -12,6 +12,7 @@ import UserLayout from "../layout/User";
 import UserProfile from "../pages/user/Profile";
 import Bookmark from "../pages/user/Bookmark";
 import SignUp from "../pages/SignUp";
+import ForgotPassword from "../pages/ForgotPassword";
 import VerifyOtp from "../pages/VerifyOtp";
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: "/sign-up",
         element: <SignUp />
+    },
+    {
+        path: "/forgot-password",
+        element: <ForgotPassword />
     },
     {
         path: "/verify-otp",

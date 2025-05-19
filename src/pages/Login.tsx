@@ -85,7 +85,7 @@ const Login = () => {
                                     </button>
                                 </div>
                                 {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-                                <div className="mt-4"><a className="link link-hover">Forgot password?</a></div>
+                                <div className="mt-4"><Link to="/forgot-password" className="link link-hover">Forgot password?</Link></div>
                                 <button className="btn btn-neutral mt-4">Login</button>
                             </fieldset>
                         </form>

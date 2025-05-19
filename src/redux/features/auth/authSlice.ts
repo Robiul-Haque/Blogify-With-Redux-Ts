@@ -40,6 +40,10 @@ export const authSlice = createSlice({
             state.image = null;
             state.role = null;
             state.token = null;
+        },
+        forgotPPasswordEmail: (state, action) => {
+            const { email } = action.payload;
+            state.email = email;
         }
     }
 })

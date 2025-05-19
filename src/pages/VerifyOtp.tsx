@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
@@ -41,11 +40,13 @@ const VerifyOtp = () => {
     const toastId = toast.loading("Verifying OTP...");
     try {
       // Simulate API call
+      console.log("OTP Verified:", typeof finalOtp);
       await new Promise((res) => setTimeout(res, 1000));
       toast.success("OTP Verified!", { id: toastId });
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       toast.error("Invalid OTP!", { id: toastId });
+      console.error("Error verifying OTP:", error);
     }
   };
 
@@ -55,17 +56,21 @@ const VerifyOtp = () => {
         <div className="card w-full shadow-2xl bg-base-100">
           <div className="card-body">
             <h2 className="text-center text-2xl font-bold">Verify OTP</h2>
+            <p className="text-center text-sm mt-4 text-gray-500">
+              Please enter the 6-digit OTP sent to your email:{" "}
+              <span className="font-semibold text-primary">user@example.com</span>
+            </p>
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
               <div className="flex justify-between gap-2">
-                {otp.map((digit, i) => (
+                {otp.map((digit, index) => (
                   <input
-                    key={i}
+                    key={index}
                     type="text"
                     maxLength={1}
                     value={digit}
-                    onChange={(e) => handleChange(e, i)}
-                    onKeyDown={(e) => handleKeyDown(e, i)}
-                    ref={(el) => { inputsRef.current[i] = el; }}
+                    onChange={(e) => handleChange(e, index)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
+                    ref={(el) => { inputsRef.current[index] = el; }}
                     className="input input-bordered w-12 text-center text-xl"
                   />
                 ))}
@@ -75,9 +80,10 @@ const VerifyOtp = () => {
               </button>
             </form>
             <p className="text-center text-sm mt-4 text-gray-500">
-              Didn’t receive the code?{" "}
-              <button className="link link-hover font-bold">Resend</button>
+              Didn’t get the code?{" "}
+              <span className="text-gray-500">Check your spam folder or</span>{" "}
             </p>
+            <button className="link link-hover font-bold">Resend</button>
           </div>
         </div>
       </div>
