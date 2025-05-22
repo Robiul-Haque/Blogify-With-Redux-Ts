@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
 const forgotPasswordSchema = z.object({
-    email: z.string().email("Invalid email format"),
-});
+    email: z.string().email("Invalid email address").nonempty("Email is required"),
+})
 
 type Inputs = z.infer<typeof forgotPasswordSchema>;
 
@@ -16,13 +16,13 @@ const ForgotPassword = () => {
     });
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        const toastId = toast.loading("Sending reset link...");
+        const toastId = toast.loading("Sending reset OTP");
         try {
             // const res = await forgotPassword({ email: data.email }).unwrap();
             // if (res?.success) {
-            //     toast.success("Reset link sent to your email!", { id: toastId });
+            //     toast.success("Reset OTP sent to your email!", { id: toastId });
             // } else {
-            //     toast.error("Failed to send reset link", { id: toastId });
+            //     toast.error("Failed to send reset OTP", { id: toastId });
             // }
         } catch (error) {
             type ErrorResponse = { data?: { message?: string } };
@@ -39,14 +39,13 @@ const ForgotPassword = () => {
                         <h2 className="text-center text-2xl font-[800]">Forgot Password</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="font-[400]">
                             <fieldset className="fieldset">
-                                <label className={`fieldset-label ${errors.email ? "text-red-500" : ""} mb-1`}>
-                                    Enter your email to receive OTO
-                                </label>
+                                <p className="text-gray-600 mb-2 text-md text-center font-semibold">We'll email you a OTP code to reset it</p>
+                                <label className={`fieldset-label ${errors.email ? "text-red-500" : ""} mb-1`}>Email</label>
                                 <input
                                     type="email"
                                     className={`input focus:outline-none ${errors.email ? "border-red-500" : ""}`}
                                     placeholder="Enter your email"
-                                    {...register("email")}
+                                    {...register("email", { required: true })}
                                 />
                                 {errors.email && (
                                     <p className="text-red-500">{errors.email.message}</p>
