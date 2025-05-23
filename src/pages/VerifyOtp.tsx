@@ -37,15 +37,15 @@ const VerifyOtp = () => {
       return;
     }
 
-    const toastId = toast.loading("Verifying OTP...");
+    // const toastId = toast.loading("Verifying OTP...");
     try {
       // Simulate API call
-      console.log("OTP Verified:", typeof finalOtp);
+      console.log("OTP Verified:", finalOtp);
       await new Promise((res) => setTimeout(res, 1000));
-      toast.success("OTP Verified!", { id: toastId });
+      toast.success("OTP Verified!");
       // navigate("/");
     } catch (error) {
-      toast.error("Invalid OTP!", { id: toastId });
+      toast.error("Invalid OTP!");
       console.error("Error verifying OTP:", error);
     }
   };
@@ -82,8 +82,8 @@ const VerifyOtp = () => {
             <p className="text-center text-sm mt-4 text-gray-500">
               Didn’t get the code?{" "}
               <span className="text-gray-500">Check your spam folder or</span>{" "}
+              <button className="link link-hover text-black font-bold">Resend</button>
             </p>
-            <button className="link link-hover font-bold">Resend</button>
           </div>
         </div>
       </div>

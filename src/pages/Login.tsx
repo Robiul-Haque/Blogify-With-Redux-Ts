@@ -75,11 +75,11 @@ const Login = () => {
                         <form onSubmit={handleSubmit(onSubmit)} className="roboto font-[400]">
                             <fieldset className="fieldset">
                                 <label className={`fieldset-label ${errors.email ? "text-red-500" : ""}`}>Email</label>
-                                <input type="email" className={`input focus:outline-none ${errors.email ? "border-red-500 focus:border-red-500" : ""}`} placeholder="Email" {...register("email")} />
+                                <input type="email" className={`input focus:outline-none w-full ${errors.email ? "border-red-500 focus:border-red-500" : ""}`} placeholder="Email" {...register("email")} />
                                 {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                                 <label className={`fieldset-label mt-4 ${errors.password ? "text-red-500" : ""}`}>Password</label>
                                 <div className="relative">
-                                    <input type={showPassword ? "text" : "password"} className={`input focus:outline-none ${errors.password ? "border-red-500 focus:border-red-500" : ""}`} placeholder="Password" {...register("password")} />
+                                    <input type={showPassword ? "text" : "password"} className={`input focus:outline-none w-full ${errors.password ? "border-red-500 focus:border-red-500" : ""}`} placeholder="Password" {...register("password")} />
                                     <button type="button" className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" onClick={() => setShowPassword(!showPassword)}>
                                         {showPassword ? <img className="size-5 cursor-pointer" src="https://img.icons8.com/material-outlined/24/visible--v1.png" alt="visible" /> : <img className="size-5 cursor-pointer" src="https://img.icons8.com/material-rounded/50/invisible.png" alt="invisible" />}
                                     </button>
