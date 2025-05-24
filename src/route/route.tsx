@@ -37,6 +37,10 @@ const router = createBrowserRouter([
         element: <ForgotPassword />
     },
     {
+        path: "/reset-password",
+        element: <h2>Reset Password Page</h2>
+    },
+    {
         path: "/verify-otp",
         element: <VerifyOtp />
     },

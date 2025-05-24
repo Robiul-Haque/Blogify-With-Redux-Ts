@@ -61,7 +61,7 @@ const ForgotPassword = () => {
                                     isLoading ?
                                         <button type="button" className="btn btn-neutral mt-4 opacity-80">
                                             <div className="w-6 h-6 border-4 border-t-white border-r-white border-b-transparent border-l-transparent rounded-full animate-spin mr-2"></div>
-                                            Sending OTP
+                                            Sending OTP...
                                         </button>
                                         :
                                         <button type="submit" className="btn btn-neutral mt-4 w-full">
