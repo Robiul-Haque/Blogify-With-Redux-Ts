@@ -65,7 +65,11 @@ const VerifyOtp = () => {
             <h2 className="text-center text-2xl font-bold">Verify OTP</h2>
             <p className="text-center text-sm mt-4 text-gray-500">
               Please enter the 6-digit OTP sent to your email:{" "}
-              <span className="font-semibold text-primary">{email || ""}</span>
+              {email && (
+                <span className="font-semibold text-primary">
+                  {email.replace(/(.{6}).*(@.*)/, '$1***$2')}
+                </span>
+              )}
             </p>
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
               <div className="flex justify-between gap-1">
@@ -86,10 +90,12 @@ const VerifyOtp = () => {
               }
             </form>
             <p className="text-center text-sm mt-4 text-gray-500">
-              Didn’t get the code?{" "}
-              <span className="text-gray-500">Check your spam folder or</span>{" "}
-              <button className="link link-hover text-black font-bold">Resend</button>
+              Didn’t get the code?
             </p>
+            <span className="text-center text-sm">
+              <span className="text-gray-500">Check your spam folder or </span>
+              <button className="link link-hover text-black font-bold">Resend</button>
+            </span>
           </div>
         </div>
       </div>
