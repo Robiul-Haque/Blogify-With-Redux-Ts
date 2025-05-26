@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import { useForgotPasswordMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
-import { forgotPasswordEmail } from "../redux/features/auth/authSlice";
+import { forgotPasswordEmail } from "../redux/features/user/userSlice";
 
 const forgotPasswordSchema = z.object({
     email: z.string().email("Invalid email address").nonempty("Email is required"),
@@ -21,21 +21,18 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        // const toastId = toast.loading("Sending reset OTP");
-        try {
-            const res = await forgotPassword({ email: data.email }).unwrap();
-            if (res?.success) {
-                dispatch(forgotPasswordEmail({ email: data.email }));
-                toast.success("Reset OTP sent to your email!");
-                navigate("/verify-otp");
-            } else {
-                toast.error("Failed to send reset OTP");
-            }
-        } catch (error) {
-            type ErrorResponse = { data?: { message?: string } };
-            const message = (error as ErrorResponse)?.data?.message || "Something went wrong";
-            toast.error(message);
-        }
+        forgotPassword({ email: data.email })
+            .unwrap()
+            .then((res) => {
+                if (res?.success) {
+                    dispatch(forgotPasswordEmail({ email: data.email }));
+                    toast.success(res?.message || "Reset OTP sent to your email!");
+                    navigate("/verify-otp");
+                }
+            })
+            .catch((error) => {
+                toast.error(error?.data?.message || "Something went wrong");
+            });
     };
 
     return (

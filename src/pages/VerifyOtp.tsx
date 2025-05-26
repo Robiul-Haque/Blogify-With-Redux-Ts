@@ -9,7 +9,7 @@ const VerifyOtp = () => {
   const navigate = useNavigate();
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
-  const { email } = useSelector((state: RootState) => state.auth);
+  const { email } = useSelector((state: RootState) => state.user);
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -42,19 +42,17 @@ const VerifyOtp = () => {
       return;
     }
 
-    try {
-      verifyOtp({ email, otp: finalOtp })
-        .unwrap()
-        .then((res) => {
-          if (res?.success) {
-            toast.success("OTP Verified!");
-            navigate("/reset-password");
-          }
-        })
-    } catch (error) {
-      toast.error("Invalid OTP!");
-      console.error("Error verifying OTP:", error);
-    }
+    verifyOtp({ email, otp: finalOtp })
+      .unwrap()
+      .then((res) => {
+        if (res?.success) {
+          toast.success(res?.message || "OTP Verified!");
+          navigate("/reset-password");
+        }
+      })
+      .catch((error) => {
+        toast.error(error?.data?.message || "Failed to verify OTP. Please try again.");
+      });
   };
 
   return (

@@ -25,7 +25,14 @@ const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["user"],
         }),
+        resetPassword: build.mutation({
+            query: (payload) => ({
+                url: "/auth/reset-password",
+                method: "POST",
+                body: payload,
+            }),
+        }),
     })
 });
 
-export const { useSignupMutation , useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, } = userApi;
+export const { useSignupMutation, useViewUserProfileInfoQuery, useUpdateUserProfileInfoMutation, useResetPasswordMutation } = userApi;

@@ -40,15 +40,11 @@ export const authSlice = createSlice({
             state.image = null;
             state.role = null;
             state.token = null;
-        },
-        forgotPasswordEmail: (state, action) => {
-            const { email } = action.payload;
-            state.email = email;
         }
     }
 })
 
-export const { setUser, logout, forgotPasswordEmail } = authSlice.actions;
+export const { setUser, logout } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;
 
