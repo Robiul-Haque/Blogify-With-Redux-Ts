@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useVerifyOtpMutation } from "../redux/features/auth/authApi";
+import { useForgotPasswordMutation, useVerifyOtpMutation } from "../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
@@ -11,6 +11,26 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const { email } = useSelector((state: RootState) => state.user);
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const [resendAvailable, setResendAvailable] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(5);
+  const [forgotPassword, { isLoading: isForgotPasswordLoading }] = useForgotPasswordMutation();
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setResendAvailable(true);
+      return;
+    }
+
+    const interval = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
@@ -22,15 +42,11 @@ const VerifyOtp = () => {
     setOtp(newOtp);
 
     // Move to next input
-    if (value && index < 5) {
-      inputsRef.current[index + 1]?.focus();
-    }
+    if (value && index < 5) inputsRef.current[index + 1]?.focus();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputsRef.current[index - 1]?.focus();
-    }
+    if (e.key === "Backspace" && !otp[index] && index > 0) inputsRef.current[index - 1]?.focus();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,10 +66,23 @@ const VerifyOtp = () => {
           navigate("/reset-password");
         }
       })
-      .catch((error) => {
-        toast.error(error?.data?.message || "Failed to verify OTP. Please try again.");
-      });
+      .catch((error) => toast.error(error?.data?.message || "Failed to verify OTP. Please try again."));
   };
+
+  const resendOtp = (): void => {
+    if (email) {
+      console.log(true);
+
+      forgotPassword({ email })
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+
+          if (res?.success) toast.success("OTP has been resent!");
+        })
+        .catch((error) => toast.error(error?.data?.message || "Something went wrong"));
+    }
+  }
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -63,17 +92,18 @@ const VerifyOtp = () => {
             <h2 className="text-center text-2xl font-bold">Verify OTP</h2>
             <p className="text-center text-sm mt-4 text-gray-500">
               Please enter the 6-digit OTP sent to your email:{" "}
-              {email && (
-                <span className="font-semibold text-primary">
-                  {email.replace(/(.{6}).*(@.*)/, '$1***$2')}
-                </span>
-              )}
+              {
+                email &&
+                <span className="font-semibold text-primary">{email.replace(/(.{6}).*(@.*)/, '$1***$2')}</span>
+              }
             </p>
             <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
               <div className="flex justify-between gap-1">
-                {otp.map((digit, index) => (
-                  <input key={index} type="text" maxLength={1} value={digit} onChange={(e) => handleChange(e, index)} onKeyDown={(e) => handleKeyDown(e, index)} ref={(el) => { inputsRef.current[index] = el; }} className="input input-bordered w-12 text-center text-xl" />
-                ))}
+                {
+                  otp.map((digit, index) =>
+                    <input key={index} type="text" maxLength={1} value={digit} onChange={(e) => handleChange(e, index)} onKeyDown={(e) => handleKeyDown(e, index)} ref={(el) => { inputsRef.current[index] = el; }} className="input input-bordered w-12 text-center text-xl" />
+                  )
+                }
               </div>
               {
                 isLoading ?
@@ -82,18 +112,21 @@ const VerifyOtp = () => {
                     Verifying OTP...
                   </button>
                   :
-                  <button type="submit" className="btn btn-neutral w-full">
-                    Verify OTP
-                  </button>
+                  <button type="submit" className="btn btn-neutral w-full">Verify OTP</button>
               }
             </form>
-            <p className="text-center text-sm mt-4 text-gray-500">
-              Didn’t get the code?
-            </p>
-            <span className="text-center text-sm">
-              <span className="text-gray-500">Check your spam folder or </span>
-              <button className="link link-hover text-black font-bold">Resend</button>
-            </span>
+            <p className="text-center text-sm mt-4 text-gray-500">Didn’t get the code?</p>
+            <div className="text-center text-sm mt-1">
+              {
+                resendAvailable ?
+                  isForgotPasswordLoading ?
+                    <button type="button" className="link link-hover text-black font-bold">Resending OTP...</button>
+                    :
+                    <button type="submit" onClick={() => { resendOtp(); setTimeLeft(5); setResendAvailable(false); }} className="link link-hover text-black font-bold">Resend OTP</button>
+                  :
+                  <span className="text-gray-500">You can resend OTP in <strong>{formatTime(timeLeft)}</strong></span>
+              }
+            </div>
           </div>
         </div>
       </div>

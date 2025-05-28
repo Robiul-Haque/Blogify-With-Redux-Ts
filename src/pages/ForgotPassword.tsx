@@ -30,9 +30,7 @@ const ForgotPassword = () => {
                     navigate("/verify-otp");
                 }
             })
-            .catch((error) => {
-                toast.error(error?.data?.message || "Something went wrong");
-            });
+            .catch((error) => toast.error(error?.data?.message || "Something went wrong"));
     };
 
     return (
