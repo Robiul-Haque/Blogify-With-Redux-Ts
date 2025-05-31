@@ -1,6 +1,7 @@
 import Navbar from "../../shared/Navbar";
 import Hero from "../../components/user/Hero";
 import Blog from "../../components/user/Blog";
+import Footer from "../../shared/Footer";
 
 const Home = () => {
     return (
@@ -8,6 +9,7 @@ const Home = () => {
             <Navbar />
             <Hero />
             <Blog />
+            <Footer />
         </>
     )
 }
