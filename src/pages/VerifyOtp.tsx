@@ -78,7 +78,8 @@ const VerifyOtp = () => {
         })
         .catch((error) => toast.error(error?.data?.message || "Something went wrong"));
     } else {
-      toast.error("Email address is missing. Please go back and enter your email to receive an OTP");
+      toast.error("Enter your email to receive a new OTP");
+      navigate("/forgot-password");
     }
   }
 

@@ -38,12 +38,12 @@ const router = createBrowserRouter([
         element: <ForgotPassword />
     },
     {
-        path: "/reset-password",
-        element: <ResetPassword />
-    },
-    {
         path: "/verify-otp",
         element: <VerifyOtp />
+    },
+    {
+        path: "/reset-password",
+        element: <ResetPassword />
     },
     {
         path: "/user/dashboard",
