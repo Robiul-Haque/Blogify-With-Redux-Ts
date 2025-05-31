@@ -12,7 +12,7 @@ const VerifyOtp = () => {
   const { email } = useSelector((state: RootState) => state.user);
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
   const [resendAvailable, setResendAvailable] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(600);
   const [forgotPassword, { isLoading: isForgotPasswordLoading }] = useForgotPasswordMutation();
 
   useEffect(() => {
@@ -71,16 +71,14 @@ const VerifyOtp = () => {
 
   const resendOtp = (): void => {
     if (email) {
-      console.log(true);
-
       forgotPassword({ email })
         .unwrap()
         .then((res) => {
-          console.log(res);
-
           if (res?.success) toast.success("OTP has been resent!");
         })
         .catch((error) => toast.error(error?.data?.message || "Something went wrong"));
+    } else {
+      toast.error("Email address is missing. Please go back and enter your email to receive an OTP");
     }
   }
 
@@ -122,7 +120,7 @@ const VerifyOtp = () => {
                   isForgotPasswordLoading ?
                     <button type="button" className="link link-hover text-black font-bold">Resending OTP...</button>
                     :
-                    <button type="submit" onClick={() => { resendOtp(); setTimeLeft(5); setResendAvailable(false); }} className="link link-hover text-black font-bold">Resend OTP</button>
+                    <button type="submit" onClick={() => { resendOtp(); setTimeLeft(600); setResendAvailable(false); }} className="link link-hover text-black font-bold">Resend OTP</button>
                   :
                   <span className="text-gray-500">You can resend OTP in <strong>{formatTime(timeLeft)}</strong></span>
               }
