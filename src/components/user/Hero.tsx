@@ -1,8 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade } from 'swiper/modules';
 import "swiper/swiper-bundle.css";
-import "swiper/css/effect-fade";
-import "swiper/css/pagination";
 import img_1 from "../../assets/img-1.jpeg";
 import img_2 from "../../assets/img-2.jpeg";
 import img_3 from "../../assets/img-3.jpeg";
